@@ -1,14 +1,8 @@
-export type ShoppingItem = {
-  _id: string;
-  name: string;
-  bought: boolean;
-  createdAt: string;
-};
+export type  User = {
+  Id: number,
+  Name: string,
+  Email: string,
+  RoleId: number,
+  RoleName: string
+}
 
-export type AdminUser = {
-  id: string;
-  name: string;
-  email: string;
-  roleName: string;
-  createdAt: string;
-};

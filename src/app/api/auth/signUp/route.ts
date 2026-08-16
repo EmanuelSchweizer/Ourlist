@@ -4,9 +4,12 @@ export async function POST(req: Request) {
     try {
         const body = await req.json();
 
-        const signupResponse = await fetch(`${process.env.API_URL}/auth/signup`, {
+        const signupResponse = await fetch(`${process.env.API_URL}/User/signup`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "x-api-key": process.env.BACKEND_API_KEY as string,
+            },
             body: JSON.stringify(body),
         });
 

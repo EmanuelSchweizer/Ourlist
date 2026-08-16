@@ -12,19 +12,29 @@ export const authOptions: NextAuthOptions = {
     },
     callbacks: {
         async jwt({ token, user, account }) {
-            const userFromSignIn = user as { id?: string; isAdmin?: boolean } | undefined;
+            const userFromSignIn = user as {
+                id?: string;
+                isAdmin?: boolean;
+                accessToken?: string;
+                refreshToken?: string;
+            } | undefined;
             const isCredentialsSignIn = account?.provider === "credentials";
- 
+
             if (userFromSignIn?.id && isCredentialsSignIn) {
                 token.userId = userFromSignIn.id;
                 token.isAdmin = userFromSignIn.isAdmin ?? false;
+                token.accessToken = userFromSignIn.accessToken;
+                token.refreshToken = userFromSignIn.refreshToken;
                 return token;
             }
 
             if (!token.userId && token.email) {
-                const resolveUserResponse = await fetch(`${process.env.API_URL}/auth/resolve-user`, {
+                const resolveUserResponse = await fetch(`${process.env.API_URL}/User/resolveOrCreateUser`, {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-api-key": process.env.BACKEND_API_KEY as string,
+                    },
                     body: JSON.stringify({
                         email: token.email,
                         name: token.name,
@@ -32,10 +42,12 @@ export const authOptions: NextAuthOptions = {
                 });
 
                 if (resolveUserResponse.ok) {
-                    const dbUser = await resolveUserResponse.json() as { id?: string; roleName?: string };
-                    if (dbUser?.id) {
-                        token.userId = dbUser.id;
-                        token.isAdmin = dbUser.roleName === 'admin';
+                    const data = await resolveUserResponse.json();
+                    if (data?.user?.id) {
+                        token.userId = data.user.id;
+                        token.isAdmin = data.user.roleName === "admin";
+                        token.accessToken = data.token;
+                        token.refreshToken = data.refreshToken;
                     }
                 }
             }
@@ -52,46 +64,51 @@ export const authOptions: NextAuthOptions = {
             return session;
         },
     },
-  providers: [
-    CredentialsProvider({
-        name: "Sign In",
-        credentials: {
-            email: { label: "Email", type: "email", placeholder: "example@example.com" },
-            password: { label: "Password", type: "password" }
-        },
-        async authorize(credentials: Record<"email" | "password", string> | undefined) {
-            if (!credentials || !credentials.email || !credentials.password) return null
+    providers: [
+        CredentialsProvider({
+            name: "Sign In",
+            credentials: {
+                email: { label: "Email", type: "email", placeholder: "example@example.com" },
+                password: { label: "Password", type: "password" }
+            },
+            async authorize(credentials: Record<"email" | "password", string> | undefined) {
+                if (!credentials || !credentials.email || !credentials.password) return null
 
-            const loginResponse = await fetch(`${process.env.API_URL}/auth/login`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    email: credentials.email,
-                    password: credentials.password
+                const loginResponse = await fetch(`${process.env.API_URL}/User/signIn`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-api-key": process.env.BACKEND_API_KEY as string,
+                    },
+                    body: JSON.stringify({
+                        email: credentials.email,
+                        password: credentials.password
+                    })
                 })
-            })
 
-            if (!loginResponse.ok) {
-                return null
-            }
-
-            const dbUser = await loginResponse.json()
-
-            if (dbUser?.id && dbUser?.email) {
-                return {
-                    id: dbUser.id,
-                    name: dbUser.name,
-                    email: dbUser.email,
-                    isAdmin: dbUser.roleName === 'admin',
+                if (!loginResponse.ok) {
+                    return null
                 }
-            }
 
-            return null
-        },
-    }),
-    GoogleProvider({
-        clientId: process.env.GOOGLE_CLIENT_ID as string,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-    }),
-  ],
+                const data = await loginResponse.json()
+
+                if (data?.user?.id && data?.user?.email) {
+                    return {
+                        id: data.user.id,
+                        name: data.user.name,
+                        email: data.user.email,
+                        isAdmin: data.user.roleName === "admin",
+                        accessToken: data.token,
+                        refreshToken: data.refreshToken,
+                    }
+                }
+
+                return null
+            },
+        }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID as string,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+        }),
+    ],
 }
