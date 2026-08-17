@@ -3,38 +3,30 @@
  */
 import { logout } from "@/features/auth/actions/logout";
 import { serverFetch } from "@/lib/server/api-client";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { getToken } from "next-auth/jwt";
 
 jest.mock("@/lib/server/api-client", () => ({
     serverFetch: jest.fn(),
 }));
 
 jest.mock("next/headers", () => ({
-    cookies: jest.fn(),
+    cookies: jest.fn().mockResolvedValue({}),
 }));
 
-jest.mock("next/navigation", () => ({
-    redirect: jest.fn(),
+jest.mock("next-auth/jwt", () => ({
+    getToken: jest.fn(),
 }));
 
 const mockServerFetch = serverFetch as jest.Mock;
-const mockCookies = cookies as jest.Mock;
-const mockRedirect = redirect as unknown as jest.Mock;
+const mockGetToken = getToken as jest.Mock;
 
 describe("logout", () => {
-    const mockCookieStore = {
-        get: jest.fn(),
-        delete: jest.fn(),
-    };
-
     beforeEach(() => {
         jest.resetAllMocks();
-        mockCookies.mockResolvedValue(mockCookieStore);
     });
 
-    it("calls the backend logout endpoint with the refresh token when one is present", async () => {
-        mockCookieStore.get.mockReturnValue({ value: "refresh-token-123" });
+    it("calls the backend logout endpoint with the refresh token from the session", async () => {
+        mockGetToken.mockResolvedValue({ refreshToken: "refresh-token-123" });
         mockServerFetch.mockResolvedValue(undefined);
 
         await logout();
@@ -48,32 +40,26 @@ describe("logout", () => {
         );
     });
 
-    it("skips the backend call when there is no refresh token cookie", async () => {
-        mockCookieStore.get.mockReturnValue(undefined);
+    it("skips the backend call when there is no session token", async () => {
+        mockGetToken.mockResolvedValue(null);
 
         await logout();
 
         expect(mockServerFetch).not.toHaveBeenCalled();
     });
 
-    it("still deletes cookies and redirects when the backend call fails", async () => {
-        mockCookieStore.get.mockReturnValue({ value: "refresh-token-123" });
-        mockServerFetch.mockRejectedValue(new Error("network error"));
+    it("skips the backend call when the token has no refresh token", async () => {
+        mockGetToken.mockResolvedValue({ userId: "1" });
 
         await logout();
 
-        expect(mockCookieStore.delete).toHaveBeenCalledWith("refreshToken");
-        expect(mockCookieStore.delete).toHaveBeenCalledWith("accessToken");
-        expect(mockRedirect).toHaveBeenCalledWith("/login");
+        expect(mockServerFetch).not.toHaveBeenCalled();
     });
 
-    it("deletes both auth cookies and redirects to /login", async () => {
-        mockCookieStore.get.mockReturnValue(undefined);
+    it("swallows backend errors instead of throwing", async () => {
+        mockGetToken.mockResolvedValue({ refreshToken: "refresh-token-123" });
+        mockServerFetch.mockRejectedValue(new Error("network error"));
 
-        await logout();
-
-        expect(mockCookieStore.delete).toHaveBeenCalledWith("refreshToken");
-        expect(mockCookieStore.delete).toHaveBeenCalledWith("accessToken");
-        expect(mockRedirect).toHaveBeenCalledWith("/login");
+        await expect(logout()).resolves.toBeUndefined();
     });
 });
