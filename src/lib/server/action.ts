@@ -14,6 +14,7 @@ export function createAction<TInput, TOutput>(
             return { success: true, data: await fn(input) };
         } catch (error) {
             if (error instanceof ApiError) {
+                console.error("Action ApiError:", error.status, error.body);
                 return { success: false, message: parseErrorMessage(error.body) ?? fallbackMessage };
             }
             console.error("Unhandled action error:", error);
@@ -25,7 +26,20 @@ export function createAction<TInput, TOutput>(
 function parseErrorMessage(body: string): string | null {
     try {
         const parsed = JSON.parse(body);
-        return typeof parsed?.message === "string" ? parsed.message : null;
+
+        if (typeof parsed?.message === "string") {
+            return parsed.message;
+        }
+
+        // ASP.NET's ValidationProblemDetails shape: { errors: { FieldName: ["msg", ...] } }
+        if (parsed?.errors && typeof parsed.errors === "object") {
+            const firstFieldErrors = Object.values(parsed.errors)[0];
+            if (Array.isArray(firstFieldErrors) && typeof firstFieldErrors[0] === "string") {
+                return firstFieldErrors[0];
+            }
+        }
+
+        return null;
     } catch {
         return null;
     }
