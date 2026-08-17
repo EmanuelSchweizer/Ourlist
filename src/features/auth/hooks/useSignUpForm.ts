@@ -2,6 +2,8 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { signUp } from "@/features/auth/actions/signUp";
+
 export const PASSWORD_RULES_MESSAGE = "Password must be at least 10 characters and include uppercase, lowercase, number, and special character.";
 
 const GENERIC_SIGN_UP_ERROR = "Sign up failed.";
@@ -76,20 +78,14 @@ export function useSignUpForm() {
         }
 
         try {
-            const response = await fetch("/api/auth/signUp", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    name: fields.name,
-                    email: fields.email,
-                    password: fields.password,
-                }),
+            const result = await signUp({
+                name: fields.name,
+                email: fields.email,
+                password: fields.password,
             });
 
-            const responseBody = await response.json().catch(() => ({ message: GENERIC_SIGN_UP_ERROR }));
-
-            if (!response.ok) {
-                setError(responseBody?.message ?? GENERIC_SIGN_UP_ERROR);
+            if (!result.success) {
+                setError(result.message);
                 return;
             }
 

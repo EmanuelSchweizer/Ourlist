@@ -4,6 +4,7 @@ import { SignUpForm } from '@/features/auth/components/SignUpForm';
 import { useRouter } from 'next/navigation';
 import userEvent from '@testing-library/user-event';
 import { signIn } from 'next-auth/react';
+import { signUp } from '@/features/auth/actions/signUp';
 
 jest.mock('next/navigation', () => ({
     useRouter: jest.fn(),
@@ -13,11 +14,14 @@ jest.mock('next-auth/react', () => ({
     signIn: jest.fn(),
 }));
 
+jest.mock('@/features/auth/actions/signUp', () => ({
+    signUp: jest.fn(),
+}));
+
 const mockUseRouter = useRouter as jest.Mock;
 const mockPush = jest.fn();
 const mockRefresh = jest.fn();
-const mockFetch = jest.fn();
-global.fetch = mockFetch as unknown as typeof fetch;
+const mockSignUp = signUp as jest.Mock;
 const mockSignIn = signIn as jest.Mock;
 
 describe('SignUpForm', () => {
@@ -84,10 +88,10 @@ describe('SignUpForm', () => {
     });
 
     it('submits the form and redirects on successful sign up', async () => {
-        mockFetch.mockResolvedValueOnce({
-            ok: true,
-            json: async () => ({}),
-        } as Response);
+        mockSignUp.mockResolvedValueOnce({
+            success: true,
+            user: { Id: '1', Name: 'Test User', Email: 'test@example.com', RoleName: 'user' },
+        });
         mockSignIn.mockResolvedValueOnce({ error: undefined, ok: true });
         const user = userEvent.setup();
         render(<SignUpForm />);
@@ -104,10 +108,7 @@ describe('SignUpForm', () => {
     });
 
     it('displays generic error message on failed sign up', async () => {
-        mockFetch.mockResolvedValueOnce({
-            ok: false,
-            json: async () => ({}),
-        } as Response);
+        mockSignUp.mockResolvedValueOnce({ success: false, message: 'Sign up failed.' });
         const user = userEvent.setup();
         render(<SignUpForm />);
 
@@ -123,10 +124,7 @@ describe('SignUpForm', () => {
     });
 
     it('sign up fails when the email is already in use', async () => {
-        mockFetch.mockResolvedValueOnce({
-            ok: false,
-            json: async () => ({ message: 'User already exists', status: 409 }),
-        } as Response);
+        mockSignUp.mockResolvedValueOnce({ success: false, message: 'User already exists' });
         const user = userEvent.setup();
         render(<SignUpForm />);
 
@@ -142,10 +140,10 @@ describe('SignUpForm', () => {
     });
 
     it('sign up successfully but sign in fails', async () => {
-        mockFetch.mockResolvedValueOnce({
-            ok: true,
-            json: async () => ({}),
-        } as Response);
+        mockSignUp.mockResolvedValueOnce({
+            success: true,
+            user: { Id: '1', Name: 'Test User', Email: 'test@example.com', RoleName: 'user' },
+        });
         mockSignIn.mockResolvedValueOnce({ error: 'error', ok: false });
         const user = userEvent.setup();
         render(<SignUpForm />);
@@ -159,8 +157,8 @@ describe('SignUpForm', () => {
         expect(mockRefresh).toHaveBeenCalled();
     })
 
-    it('fetch throws network error', async () => {
-        mockFetch.mockRejectedValueOnce(new Error('Network error'));
+    it('signUp throws network error', async () => {
+        mockSignUp.mockRejectedValueOnce(new Error('Network error'));
         const user = userEvent.setup();
         render(<SignUpForm />);
 

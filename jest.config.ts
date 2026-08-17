@@ -13,16 +13,12 @@ const config: Config = {
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
-    // Handle module aliases (this will be automatically configured for you soon)
-    '^@/components/(.*)$': '<rootDir>/components/$1',
-    '^@/lib/(.*)$': '<rootDir>/lib/$1',
-    '^@/pages/(.*)$': '<rootDir>/pages/$1',
-    '^@/hooks/(.*)$': '<rootDir>/hooks/$1',
-    '^@/actions/(.*)$': '<rootDir>/actions/$1',
-    '^@/utils/(.*)$': '<rootDir>/utils/$1',
-    '^@/constants/(.*)$': '<rootDir>/constants/$1',
-    '^@/types/(.*)$': '<rootDir>/types/$1',
-    '^@/store/(.*)$': '<rootDir>/store/$1',
+    // Handle module aliases (must mirror the "paths" entries in tsconfig.json)
+    '^@/components/(.*)$': '<rootDir>/src/components/$1',
+    '^@/lib/(.*)$': '<rootDir>/src/lib/$1',
+    '^@/types/(.*)$': '<rootDir>/src/types/$1',
+    '^@/store/(.*)$': '<rootDir>/src/store/$1',
+    '^@/features/(.*)$': '<rootDir>/src/features/$1',
     '^@heroui/react$': '<rootDir>/node_modules/@heroui/react/dist/index.js',
   },
 }

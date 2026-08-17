@@ -20,10 +20,9 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@/actions": ["./src/actions"],
-      "@/components": ["src/components/layout"],
-      "@/utils": ["./src/utils"],
-      "@/constants": ["./src/constants"],
+      "@/components": ["./src/components"],
+      "@/features": ["./src/features"],
+      "@/lib": ["./src/lib"],
       "@/types": ["./src/types"],
       "@/hooks": ["./src/hooks"],
       "@/store": ["./src/store"]

@@ -1,16 +1,64 @@
-import { ApiError } from "next/dist/server/api-utils";
-
+// lib/server/api-client.ts
 import "server-only";
 
-export async function serverFetch<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${process.env.CSHARP_API_URL}${path}`, {
-    ...init,
-    headers: {
-      "X-Api-Key": process.env.API_KEY!,   // ohne NEXT_PUBLIC_ Prefix!
-      "Content-Type": "application/json",
-      ...init?.headers,
-    },
-  });
-  if (!res.ok) throw new ApiError(res.status, await res.text());
-  return res.json();
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/features/auth/auth-options";
+import { ApiError } from "@/lib/errors";
+
+const BASE_URL = process.env.API_URL;
+const API_KEY = process.env.BACKEND_API_KEY;
+
+type FetchOptions = RequestInit & {
+  /** Bearer token for endpoints that require a user context */
+  accessToken?: string;
+  /** Request timeout in milliseconds, defaults to 10s */
+  timeoutMs?: number;
+};
+
+export async function serverFetch<T>(path: string, options: FetchOptions = {}): Promise<T> {
+  if (!BASE_URL || !API_KEY) {
+    throw new Error("Missing API_URL or BACKEND_API_KEY environment variable.");
+  }
+
+  const { accessToken, timeoutMs = 10_000, headers, ...init } = options;
+
+  let response: Response;
+
+  try {
+    response = await fetch(`${BASE_URL}${path}`, {
+      ...init,
+      signal: AbortSignal.timeout(timeoutMs),
+      headers: {
+        "Content-Type": "application/json",
+        "X-Api-Key": API_KEY,
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+        ...headers,
+      },
+    });
+  } catch {
+    // Network failure or timeout — the request never reached the backend.
+    // Status 0 is the convention for "no response received".
+    throw new ApiError(0, JSON.stringify({ message: "Backend is unreachable." }));
+  }
+
+  if (!response.ok) {
+    // Read as text, not JSON: error responses may be HTML or empty,
+    // and .json() would throw and mask the original error.
+    throw new ApiError(response.status, await response.text().catch(() => ""));
+  }
+
+  // Handle empty bodies (e.g. the logout endpoint returns 204 No Content).
+  if (response.status === 204 || response.headers.get("content-length") === "0") {
+    return undefined as T;
+  }
+
+  return response.json() as Promise<T>;
+}
+
+export async function authFetch<T>(path: string, options: FetchOptions = {}): Promise<T> {
+  const session = await getServerSession(authOptions);
+  const accessToken = session?.accessToken;
+
+  if (!accessToken) throw new ApiError(401, JSON.stringify({ message: "Not authenticated." }));
+  return serverFetch<T>(path, { ...options, accessToken });
 }
