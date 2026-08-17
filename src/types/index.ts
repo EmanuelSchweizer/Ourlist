@@ -1,8 +1,8 @@
-export type  User = {
-  Id: number,
-  Name: string,
-  Email: string,
-  RoleId: number,
-  RoleName: string
-}
+export type User = {
+  id: number;
+  name: string;
+  email: string;
+  roleId: number;
+  roleName: string;
+};
 

@@ -3,6 +3,14 @@ import { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google"
 
+import { User } from "@/types"
+
+type UserResponse = {
+    user?: User;
+    token?: string;
+    refreshToken?: string;
+};
+
 export const authOptions: NextAuthOptions = {
     pages: {
         signIn: "/signIn",
@@ -42,9 +50,9 @@ export const authOptions: NextAuthOptions = {
                 });
 
                 if (resolveUserResponse.ok) {
-                    const data = await resolveUserResponse.json();
+                    const data: UserResponse = await resolveUserResponse.json();
                     if (data?.user?.id) {
-                        token.userId = data.user.id;
+                        token.userId = String(data.user.id);
                         token.isAdmin = data.user.roleName === "admin";
                         token.accessToken = data.token;
                         token.refreshToken = data.refreshToken;
@@ -90,11 +98,11 @@ export const authOptions: NextAuthOptions = {
                     return null
                 }
 
-                const data = await loginResponse.json()
+                const data: UserResponse = await loginResponse.json()
 
                 if (data?.user?.id && data?.user?.email) {
                     return {
-                        id: data.user.id,
+                        id: String(data.user.id),
                         name: data.user.name,
                         email: data.user.email,
                         isAdmin: data.user.roleName === "admin",

@@ -1,5 +1,5 @@
-import { SignInForm } from "@/components/Login/SignInForm";
-import { GoogleSignInButton } from "@/components/Login/GoogleSignInButton";
+import { SignInForm } from "@/features/auth/components/SignInForm";
+import { GoogleSignInButton } from "@/features/auth/components/GoogleSignInButton";
 import { Card } from "@heroui/react";
 import Link from "next/link";
 

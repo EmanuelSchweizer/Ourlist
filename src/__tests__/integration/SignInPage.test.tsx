@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { SignInPage } from '@/app/signIn/page'
+import { SignInPage } from '@/app/(auth)/signIn/page'
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 

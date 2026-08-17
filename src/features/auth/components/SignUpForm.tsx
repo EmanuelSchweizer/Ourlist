@@ -1,9 +1,8 @@
 "use client";
 
-import { BUTTON_STYLES } from "@/constants/buttonStyles";
-import { INPUT_STYLES } from "@/constants/inputStyles";
-import { useSignUpForm } from "@/hooks/useSignUpForm";
-import { Button, Input } from "@heroui/react";
+import { useSignUpForm } from "@/features/auth/hooks/useSignUpForm";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 
 export function SignUpForm() {
@@ -18,32 +17,28 @@ export function SignUpForm() {
                 type="text"
                 name="name"
                 placeholder="Name"
-                className={INPUT_STYLES.primary}
             />
             <Input
                 type="email"
                 name="email"
                 placeholder="Email"
-                className={INPUT_STYLES.primary}
             />
             <Input
                 type="password"
                 name="password"
                 placeholder="Password"
-                className={INPUT_STYLES.primary}
             />
             <Input
                 type="password"
                 name="confirmPassword"
                 placeholder="Confirm password"
-                className={INPUT_STYLES.primary}
             />
             {error && (
                 <span className="p-1 mb-2 text-sm font-medium text-red-700 bg-red-500/15 rounded-md">
                     {error}
                 </span>
             )}
-            <Button type="submit" isDisabled={isSubmitting} className={BUTTON_STYLES.primary}>
+            <Button type="submit" isDisabled={isSubmitting} intent={"primary"}>
                 {isSubmitting ? "Creating account..." : "Sign Up"}
             </Button>
             <p className="text-sm text-center font-medium text-gray-700">
