@@ -1,21 +1,21 @@
 "use server";
 
-import { serverFetch } from "@/lib/server/api-client";
+import type { NextRequest } from "next/server";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { getToken } from "next-auth/jwt";
+
+import { serverFetch } from "@/lib/server/api-client";
 
 export async function logout() {
-    const cookieStore = await cookies();
-    const refreshToken = cookieStore.get("refreshToken")?.value;
+    const token = await getToken({
+        req: { cookies: await cookies() } as unknown as NextRequest,
+        secret: process.env.NEXTAUTH_SECRET,
+    });
 
-    if (refreshToken) {
+    if (token?.refreshToken) {
         await serverFetch("/User/logout", {
             method: "POST",
-            body: JSON.stringify({ refreshToken }),
+            body: JSON.stringify({ refreshToken: token.refreshToken }),
         }).catch(() => {});
     }
-
-    cookieStore.delete("refreshToken");
-    cookieStore.delete("accessToken");
-    redirect("/login");
 }

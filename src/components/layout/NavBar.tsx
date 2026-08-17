@@ -5,6 +5,7 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FaBasketShopping } from "react-icons/fa6";
+import { logout } from "@/features/auth/actions/logout";
 
 export const NavBar = () => {
   const { data: session, status } = useSession();
@@ -14,6 +15,7 @@ export const NavBar = () => {
   const isAdmin = (session?.user as { isAdmin?: boolean })?.isAdmin === true;
 
   const handleLogout = async () => {
+    await logout()
     await signOut({ redirect: false });
     router.refresh();
     router.push("/signIn");
