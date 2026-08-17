@@ -1,8 +1,9 @@
 // lib/server/api-client.ts
 import "server-only";
 
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/features/auth/auth-options";
+import type { NextRequest } from "next/server";
+import { cookies } from "next/headers";
+import { getToken } from "next-auth/jwt";
 import { ApiError } from "@/lib/errors";
 
 const BASE_URL = process.env.API_URL;
@@ -56,8 +57,11 @@ export async function serverFetch<T>(path: string, options: FetchOptions = {}): 
 }
 
 export async function authFetch<T>(path: string, options: FetchOptions = {}): Promise<T> {
-  const session = await getServerSession(authOptions);
-  const accessToken = session?.accessToken;
+  const token = await getToken({
+    req: { cookies: await cookies() } as unknown as NextRequest,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
+  const accessToken = token?.accessToken;
 
   if (!accessToken) throw new ApiError(401, JSON.stringify({ message: "Not authenticated." }));
   return serverFetch<T>(path, { ...options, accessToken });
