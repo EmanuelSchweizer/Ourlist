@@ -1,9 +1,9 @@
 
 import { DefaultPageLayout } from "@/components/ui/DefaultPageLayout";
-import { UserTable } from "../../features/admin/components/UserTable";
+import { Users } from "@/features/admin/components/User";
 
-export default function AdminPage(){
-    return(<DefaultPageLayout>
-        <UserTable/>
+export default async function AdminPage() {
+    return (<DefaultPageLayout>
+        <Users/>
     </DefaultPageLayout>)
-    }
+}

@@ -31,7 +31,7 @@ export async function serverFetch<T>(path: string, options: FetchOptions = {}): 
       signal: AbortSignal.timeout(timeoutMs),
       headers: {
         "Content-Type": "application/json",
-        "X-Api-Key": API_KEY,
+        "X-API-Key": API_KEY,
         ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
         ...headers,
       },
