@@ -28,6 +28,7 @@ export function SignInForm(){
                 intent="primary"
                 type="submit"
                 isDisabled={isSubmitting}
+                className={"w-full"}
             >
                 {isSubmitting ? "Logging in..." : "Log In"}
             </Button>

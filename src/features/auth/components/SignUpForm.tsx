@@ -38,12 +38,12 @@ export function SignUpForm() {
                     {error}
                 </span>
             )}
-            <Button type="submit" isDisabled={isSubmitting} intent={"primary"}>
+            <Button type="submit" isDisabled={isSubmitting} intent={"primary"} className={"w-full"}>
                 {isSubmitting ? "Creating account..." : "Sign Up"}
             </Button>
             <p className="text-sm text-center font-medium text-gray-700">
                 Already have an account?{" "}
-                <Link href="/signIn" className="text-violet-700 hover:text-violet-600 underline">
+                <Link href="/signIn" className="text-violet-700 hover:text-violet-600 underline w-full">
                     Sign in
                 </Link>
             </p>
