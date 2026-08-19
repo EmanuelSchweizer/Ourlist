@@ -1,58 +1,29 @@
-# Full-Stack Auth System with User Management
+# Ourlist
 
-## Overview
+Shared shopping lists with real-time sync. Create a list, share it with
+someone, and both see changes as they happen.
 
-A full-stack shopping list app I built to get hands-on with OAuth2 authentication, user management, and role-based access from both the frontend and backend side.
+> **Work in progress** — the backend API is complete and deployed.
+> The frontend is under active development.
 
-## Key Features
+## Status
 
-- Google OAuth & Email/Password authentication
-- JWT-based authentication & session management
-- Role-based access control (admin/user)
-- Admin panel for user management
-- Read-only demo admin account
-- REST API with authentication & authorization
-- Deployed via Vercel
+| | |
+|---|---|
+| Backend API | Complete, deployed on Railway |
+| Auth (sign up, sign in, refresh) | Done |
+| Admin panel | In progress |
+| Lists & items | In progress |
+| Real-time sync (SignalR) | Planned |
 
-## Tech Stack
+## Tech stack
 
-### Frontend
-- **Framework:** Next.js, React, TypeScript
-- **Styling:** Tailwind CSS
-- **UI library:** HeroUI
+Next.js (App Router), TypeScript, HeroUI, Tailwind, NextAuth, Zustand, Jest
+Backend: [ShoppingList_WebAPI](https://github.com/EmanuelSchweizer/ShoppingList_WebAPI.git) —
+ASP.NET Core (.NET 10), PostgreSQL, EF Core.
 
-### Backend
-- **Server:** .NET 10, ASP.NET Core Minimal API, C#
-- **Database:** MongoDB
-- **Hosted on:** Railway
+## Architecture
 
-## Testing
-
-I wrote a Jest test suite covering both sides of the app, frontend component/integration tests (React Testing Library) for the sign-in/sign-up flows and state management, and backend tests for the API routes and auth logic (credentials login, JWT, sessions).
-
-## Live Demo
-
-👉 [https://auth-demo-app-frontend.vercel.app](https://auth-demo-app-frontend.vercel.app)
-
-Demo Account:
-- Email: admin-demo@example.com
-- Password: demoadmin123
-
-### Screenshots
-<img src="./screenshots/ShoppingList.png" alt="Dashboard view" width="500" style="vertical-align: top;" />
-<img src="./screenshots/MobileView.png" alt="Mobile view" width="500" style="vertical-align: top;" />
-<img src="./screenshots/SignInPage.png" alt="Login page" width="500" style="vertical-align: top;" />
-<img src="./screenshots/SignUpPage.png" alt="Registration page" width="500" style="vertical-align: top;" />
-<img src="./screenshots/AdminPanel.png" alt="Admin panel user management" width="500" style="vertical-align: top;" />
-
-
-### Backend API (Overview)
-
-The backend provides REST endpoints for authentication, user management, and item handling.
-
-Main endpoints include:
-
-- Auth: signup, login, OAuth user resolution
-- Items: CRUD operations
-- Admin: user management (admin only)
-
+- Feature-based structure (`features/<domain>/` with `api`, `hooks`, `components`)
+- Server-side data fetching; the API key never reaches the client
+- Server Actions for mutations, typed result objects instead of thrown errors
