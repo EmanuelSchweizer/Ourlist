@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { deleteUser } from "../api";
+import { deleteUser } from "../actions";
 import { showErrorToast, showSuccessToast } from "@/components/ui/toast";
 
 export function useDeleteUser() {

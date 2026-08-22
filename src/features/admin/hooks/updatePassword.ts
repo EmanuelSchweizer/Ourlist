@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { updatePassword } from "../api";
+import { updatePassword } from "../actions";
 import { showErrorToast, showSuccessToast } from "@/components/ui/toast";
 
 type UpdateFileds = {
