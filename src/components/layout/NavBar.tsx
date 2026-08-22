@@ -19,7 +19,7 @@ export const NavBar = () => {
                 <div className="flex items-center text-white bg-violet-700 rounded-full w-8 h-8 justify-center">
                   <FaBasketShopping className="w-5 h-5" />
                 </div>
-                <span className="ml-2">Shopping List</span>
+                <span className="ml-2">Ourlist</span>
               </Link>
             </div>
             {isAuthenticated ? (

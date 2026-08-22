@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Shopping List",
+  title: "Ourlist",
   description: "Manage your shopping list efficiently.",
   icons: {
     icon: "/favicon.ico?v=2",
