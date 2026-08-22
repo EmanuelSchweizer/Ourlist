@@ -1,10 +1,11 @@
+"use client";
+
 import { LoadingSpinner } from "@/components/ui/LoadingScreen";
 import { User } from "@/types"
 import { Table } from "@heroui/react"
 import { useCallback, useMemo, useRef, useState } from "react";
-import { UserActions } from "./UserActions";
+import { TableUserActions } from "./TableActions";
 import { Input } from "@/components/ui/Input";
-import { LuSearch } from "react-icons/lu";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -87,7 +88,7 @@ export const UserTable = ({ users }: Props) => {
                       <Table.Cell>{user.name}</Table.Cell>
                       <Table.Cell>{user.email}</Table.Cell>
                       <Table.Cell>{user.roleName}</Table.Cell>
-                      <Table.Cell><UserActions user={user} /></Table.Cell>
+                      <Table.Cell><TableUserActions user={user} /></Table.Cell>
                     </Table.Row>
                   )}
                 </Table.Collection>

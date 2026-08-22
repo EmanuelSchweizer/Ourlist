@@ -7,10 +7,10 @@ interface Props{
     user: User
 }
 
-export const UserActions = ({user}: Props) => {
+export const TableUserActions = ({user}: Props) => {
     return(<div className="flex justify-end w-full space-x-2 items-center">
-        <EditUser/>
+        <EditUser user={user}/>
         <ResetUserPasswort/>
-        <DeleteUser/>
+        <DeleteUser user={user}/>
     </div>)
 }

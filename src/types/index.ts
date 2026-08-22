@@ -6,3 +6,8 @@ export type User = {
   roleName: string;
 };
 
+export type Role = {
+  id: number;
+  name: string;
+}
+

@@ -1,9 +1,15 @@
+"use server";
+
 
 import { DefaultPageLayout } from "@/components/ui/DefaultPageLayout";
-import { Users } from "@/features/admin/components/Users";
+import { UserTable } from "@/features/admin/components/UserTable";
+import { authFetch } from "@/lib/server/api-client";
+import { User } from "@/types";
 
 export default async function AdminPage() {
+    const users = await authFetch<User[]>("/User/allUsers", { method: "GET" });
+
     return (<DefaultPageLayout>
-        <Users/>
+        <UserTable users={users} />
     </DefaultPageLayout>)
 }
