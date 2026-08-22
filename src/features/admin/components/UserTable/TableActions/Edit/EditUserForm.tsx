@@ -4,7 +4,9 @@ import { showErrorToast } from "@/components/ui/toast"
 import { getRoles } from "@/features/roles/api"
 import { Role, User } from "@/types"
 import { ListBox } from "@heroui/react"
+import { useSession } from "next-auth/react"
 import { SubmitEvent, useEffect, useState } from "react"
+
 
 interface Props {
     closeModal: () => void,
@@ -13,6 +15,9 @@ interface Props {
 }
 
 export const EditUserForm = ({ user, handleSubmit, closeModal }: Props) => {
+    const session = useSession()
+    const isSessionUser = session.data?.user.id === String(user.id)
+
     const [roles, setRoles] = useState<Role[]>([])
     const [updatedUser, setUpdatedUser] = useState<User>(user)
 
@@ -48,6 +53,7 @@ export const EditUserForm = ({ user, handleSubmit, closeModal }: Props) => {
             placeholder="Name"
         />
         <Select
+            isDisabled={isSessionUser}
             isRequired
             name="roleId"
             aria-label="User role"

@@ -3,16 +3,21 @@ import { User } from "@/types";
 import { Modal } from "@heroui/react";
 import { MdDeleteOutline } from "react-icons/md";
 import { useDeleteUser } from "@/features/admin/hooks/deleteUser";
+import { useSession } from "next-auth/react";
+import { DeleteUserBody } from "./Body";
 
 interface Props {
     user: User
 }
 
 export const DeleteUser = ({ user }: Props) => {
-    const {handleSubmit, isLoading} = useDeleteUser()
-    
+    const session = useSession()
+    const isSessionUser = session.data?.user.id === String(user.id)
+
+    const { handleSubmit, isLoading } = useDeleteUser()
+
     return (<Modal>
-        <Button size="sm" isIconOnly intent="danger">
+        <Button isDisabled={isSessionUser} size="sm" isIconOnly intent="danger">
             <MdDeleteOutline size={20} height={20} />
         </Button>
         <Modal.Backdrop>
@@ -24,10 +29,7 @@ export const DeleteUser = ({ user }: Props) => {
                                 <Modal.Heading>Delete user</Modal.Heading>
                             </Modal.Header>
                             <Modal.Body>
-                                <p>
-                                    Are you sure you want to delete <strong>{user.name}</strong>? This action cannot be
-                                    undone.
-                                </p>
+                                <DeleteUserBody user={user}/>
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button intent="secondary" onPress={() => renderProps.close()}>
