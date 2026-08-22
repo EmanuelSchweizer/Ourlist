@@ -1,7 +1,7 @@
 import { User } from "@/types"
 import { DeleteUser } from "./Delete"
 import { EditUser } from "./Edit"
-import { ResetUserPasswort } from "./ResetPasswort"
+import { UpdateUserPasswort } from "./UpdatePassword"
 
 interface Props{
     user: User
@@ -10,7 +10,7 @@ interface Props{
 export const TableUserActions = ({user}: Props) => {
     return(<div className="flex justify-end w-full space-x-2 items-center">
         <EditUser user={user}/>
-        <ResetUserPasswort/>
+        <UpdateUserPasswort user={user}/>
         <DeleteUser user={user}/>
     </div>)
 }

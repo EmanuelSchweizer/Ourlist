@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { signUp } from "@/features/auth/actions/signUp";
 
-export const PASSWORD_RULES_MESSAGE = "Password must be at least 10 characters and include uppercase, lowercase, number, and special character.";
+export const PASSWORD_RULES_MESSAGE = "Password must be 8-100 characters, including uppercase, lowercase, a number and a special character.";
 
 const GENERIC_SIGN_UP_ERROR = "Sign up failed.";
 
@@ -49,7 +49,7 @@ function validateSignUpFields(fields: SignUpFields): string | null {
 }
 
 function isStrongPassword(password: string): boolean {
-    const hasMinLength = password.length >= 10;
+    const hasMinLength = password.length >= 8;
     const hasUppercase = /[A-Z]/.test(password);
     const hasLowercase = /[a-z]/.test(password);
     const hasNumber = /\d/.test(password);
