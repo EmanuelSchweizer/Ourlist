@@ -1,7 +1,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { updatePassword } from "../actions";
-import { showErrorToast, showSuccessToast } from "@/components/ui/toast";
+import { showErrorToast, showSuccessToast, showWarningToast } from "@/components/ui/toast";
+import { useSession } from "next-auth/react";
 
 type UpdateFileds = {
     newPassword: string;
@@ -37,6 +38,7 @@ function validateFields(fields: UpdateFileds): string | null {
 
 export function useUpdateUserPassword() {
     const router = useRouter();
+    const session = useSession()
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, userId: number, closeModal: () => void) => {
@@ -51,6 +53,11 @@ export function useUpdateUserPassword() {
             return;
         }
 
+        if (session.data?.user.roleName !== "admin") {
+            showWarningToast("A demo admin has no permission.")
+            return
+        }
+
         setIsLoading(true)
         updatePassword({ newPassword: fields.newPassword, userId: userId })
             .then((response) => {
@@ -58,7 +65,7 @@ export function useUpdateUserPassword() {
                     router.refresh()
                     showSuccessToast("Password updated successfully.")
                     closeModal()
-                }else{
+                } else {
                     showErrorToast(response.message)
                 }
             })

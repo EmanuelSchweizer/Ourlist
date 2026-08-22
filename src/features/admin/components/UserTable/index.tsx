@@ -72,7 +72,7 @@ export const UserTable = ({ users }: Props) => {
         </p>
       ) : (
         <Table>
-          <Table.ScrollContainer className="max-h-[calc(100vh-12rem)] overflow-y-auto">
+          <Table.ScrollContainer className="max-h-[calc(92vh-12rem)] overflow-y-auto">
             <Table.Content aria-label="Async loading table" className="min-w-[600px]">
               <Table.Header className="sticky top-0 z-10 bg-surface-secondary">
                 {columns.map((col) => (

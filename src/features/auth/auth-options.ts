@@ -31,6 +31,7 @@ export const authOptions: NextAuthOptions = {
                     accessToken: user.accessToken,
                     refreshToken: user.refreshToken,
                     expiresAt: getExpiryFromJwt(user.accessToken),
+                    roleName: user.roleName
                 };
             }
 
@@ -46,10 +47,11 @@ export const authOptions: NextAuthOptions = {
                         return {
                             ...token,
                             userId: String(data.user.id),
-                            isAdmin: data.user.roleName === "admin",
+                            isAdmin: data.user.roleName === "admin" || data.user.roleName === "demoAdmin",
                             accessToken: data.token,
                             refreshToken: data.refreshToken,
                             expiresAt: getExpiryFromJwt(data.token),
+                            roleName: user.roleName
                         };
                     }
                 } catch {
@@ -77,6 +79,7 @@ export const authOptions: NextAuthOptions = {
                     refreshToken: data.refreshToken ?? token.refreshToken,
                     expiresAt: getExpiryFromJwt(data.token),
                     error: undefined,
+                    roleName: user.roleName
                 };
             } catch {
                 return { ...token, error: "RefreshFailed" };
@@ -86,6 +89,8 @@ export const authOptions: NextAuthOptions = {
             session.user.id = token.userId;
             session.user.isAdmin = token.isAdmin === true;
             session.error = token.error;
+            session.user.roleName = token.roleName;
+            
             return session;
         },
     },
@@ -114,10 +119,10 @@ export const authOptions: NextAuthOptions = {
                         id: String(data.user.id),
                         name: data.user.name,
                         email: data.user.email,
-                        isAdmin: data.user.roleName === "admin",
+                        isAdmin: data.user.roleName === "admin" || data.user.roleName === "demoAdmin",
                         accessToken: data.token,
                         refreshToken: data.refreshToken,
-                        
+                        roleName: data.user.roleName
                     };
                 } catch {
                     return null;

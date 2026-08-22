@@ -8,6 +8,7 @@ declare module "next-auth" {
             isAdmin?: boolean;
             name?: string | null;
             email?: string | null;
+            roleName?: string;
             image?: string | null;
         };
         error?: string;
@@ -18,6 +19,7 @@ declare module "next-auth" {
         isAdmin?: boolean;
         accessToken?: string;
         refreshToken?: string;
+        roleName?: string;
     }
 }
 
@@ -29,5 +31,6 @@ declare module "next-auth/jwt" {
         refreshToken?: string;
         expiresAt?: number;
         error?: string;
+        roleName?: string;
     }
 }

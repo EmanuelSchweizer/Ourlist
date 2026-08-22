@@ -55,7 +55,7 @@ export const EditUserForm = ({ user, handleSubmit, closeModal }: Props) => {
         <Select
             isDisabled={isSessionUser}
             isRequired
-            name="roleId"
+            name={isSessionUser ? undefined : "roleId"}
             aria-label="User role"
             selectedKey={updatedUser.roleId}
             onSelectionChange={(key) => {
@@ -75,5 +75,6 @@ export const EditUserForm = ({ user, handleSubmit, closeModal }: Props) => {
                 ))}
             </ListBox>
         </Select>
+        {isSessionUser && <input type="hidden" name="roleId" value={updatedUser.roleId} />}
     </form>)
 }
