@@ -3,6 +3,7 @@ import { SignUpForm } from "@/features/auth/components/SignUpForm";
 import { Card } from "@heroui/react";
 
 export const SignUpPage = () => {
+    console.log("SIGNUP ROUTE HIT", new Date().toISOString());
     return (
         <div className="h-full">
             <Card className="w-full shadow-none rounded-none sm:shadow-surface sm:rounded-3xl text-gray-900 sm:max-w-md sm:mx-auto sm:my-10">
