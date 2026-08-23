@@ -15,7 +15,8 @@ jest.mock("next/headers", () => ({
 const mockCookies = cookies as jest.Mock;
 
 async function sessionCookie(token: Record<string, unknown>) {
-    const value = await encode({ token, secret: process.env.NEXTAUTH_SECRET! });
+    const secret = process.env.NEXTAUTH_SECRET ?? "test-secret"
+    const value = await encode({ token, secret: secret });
     return { name: "next-auth.session-token", value };
 }
 
