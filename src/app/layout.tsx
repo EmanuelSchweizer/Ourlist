@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { NavBar } from "@/components/NavBar";
-import { Footer } from "@/components/Footer";
+import { NavBar } from "@/components/layout/NavBar";
+import { Footer } from "@/components/layout/Footer";
 import { Providers } from "./providers";
 import "./globals.css";
 
@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Shopping List",
+  title: "Ourlist",
   description: "Manage your shopping list efficiently.",
   icons: {
     icon: "/favicon.ico?v=2",

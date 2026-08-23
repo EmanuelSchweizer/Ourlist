@@ -27,6 +27,13 @@ jobs:
 
       - name: Test
         run: npm test
+        env:
+          API_URL: ${{ vars.API_URL }}
+          BACKEND_API_KEY: ${{ secrets.BACKEND_API_KEY }}
+          GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          NEXTAUTH_URL: ${{ vars.NEXTAUTH_URL }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
   deploy:
     needs: test
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
@@ -42,4 +49,5 @@ jobs:
         run: railway up --service shopping_list_app_deploy
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_SHOPPINGLIST_TOKEN }}
+
 
