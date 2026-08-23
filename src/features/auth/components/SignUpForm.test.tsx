@@ -49,7 +49,7 @@ describe('SignUpForm', () => {
         await user.type(screen.getByPlaceholderText(/Confirm password/i), 'weakpass');
         await user.click(screen.getByRole('button', { name: /Sign Up/i }));
 
-        expect(await screen.findByText(/Password must be at least 10 characters and include uppercase, lowercase, number, and special character./i)).toBeInTheDocument();
+        expect(await screen.findByText(/Password must be 8-100 characters, including uppercase, lowercase, a number and a special character./i)).toBeInTheDocument();
     });
 
     it('displays empty fields error message', async () => {

@@ -53,6 +53,7 @@ describe("authorize", () => {
             isAdmin: false,
             accessToken: "access-token",
             refreshToken: "refresh-token",
+            roleName: "user"
         });
     });
 
@@ -165,12 +166,13 @@ describe("jwt callback", () => {
             accessToken: "expired",
             refreshToken: "old-refresh",
             expiresAt: Date.now() - 1000,
+            roleName: "user"
         } as JWT;
 
         const result = await jwt({ token, user: undefined, account: null } as any);
 
         expect(mockServerFetch).toHaveBeenCalledWith("/User/refresh", expect.objectContaining({ method: "POST" }));
-        expect(result).toMatchObject({ accessToken: fakeJwt(9_999_999_999), refreshToken: "new-refresh", error: undefined });
+        expect(result).toMatchObject({ accessToken: fakeJwt(9_999_999_999), refreshToken: "new-refresh", error: undefined, roleName: "user" });
     });
 
     it("sets a RefreshFailed error when the refresh request fails", async () => {

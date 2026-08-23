@@ -51,7 +51,7 @@ export const authOptions: NextAuthOptions = {
                             accessToken: data.token,
                             refreshToken: data.refreshToken,
                             expiresAt: getExpiryFromJwt(data.token),
-                            roleName: user.roleName
+                            roleName: data.user?.roleName,
                         };
                     }
                 } catch {
@@ -79,7 +79,7 @@ export const authOptions: NextAuthOptions = {
                     refreshToken: data.refreshToken ?? token.refreshToken,
                     expiresAt: getExpiryFromJwt(data.token),
                     error: undefined,
-                    roleName: user.roleName
+                    roleName: data.user?.roleName ?? token.roleName,
                 };
             } catch {
                 return { ...token, error: "RefreshFailed" };
