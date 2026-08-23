@@ -59,7 +59,7 @@ export async function serverFetch<T>(path: string, options: FetchOptions = {}): 
 export async function authFetch<T>(path: string, options: FetchOptions = {}): Promise<T> {
   const token = await getToken({
     req: { cookies: await cookies() } as unknown as NextRequest,
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: process.env.NEXTAUTH_SECRET ?? "test-secret",
   });
   const accessToken = token?.accessToken;
 
