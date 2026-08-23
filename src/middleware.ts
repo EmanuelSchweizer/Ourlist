@@ -27,7 +27,9 @@ export async function middleware(request: NextRequest) {
     // own session endpoint, since only a Route Handler (not this middleware or a
     // Server Component) is guaranteed to be able to write a refreshed cookie back.
     if (SERVER_FETCH_PATHS.some((p) => pathname.startsWith(p))) {
-        const sessionRes = await fetch(new URL("/api/auth/session", request.url), {
+        const sessionUrl = new URL("/api/auth/session", process.env.NEXTAUTH_URL);
+
+        const sessionRes = await fetch(sessionUrl, {
             headers: { cookie: request.headers.get("cookie") ?? "" },
         });
 
