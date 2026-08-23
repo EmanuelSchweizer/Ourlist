@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { Account, Session } from "next-auth";
+import { Account, Session, User } from "next-auth";
 import { JWT } from "next-auth/jwt";
 
 import { authOptions } from "@/features/auth/auth-options";
@@ -15,7 +15,7 @@ const mockServerFetch = serverFetch as jest.Mock;
 
 const credentialsProvider = authOptions.providers.find(
     (p) => p.id === "credentials"
-) as any;
+)!;
 
 const jwt = authOptions.callbacks!.jwt!;
 const session = authOptions.callbacks!.session!;
@@ -96,10 +96,10 @@ describe("jwt callback", () => {
             isAdmin: true,
             accessToken: "access-token",
             refreshToken: "refresh-token",
-        } as any;
+        } as User;
         const account = { providerAccountId: "123", provider: "credentials", type: "credentials" } as Account;
 
-        const result = await jwt({ token, user, account } as any);
+        const result = await jwt({ token, user, account });
 
         expect(mockServerFetch).not.toHaveBeenCalled();
         expect(result).toMatchObject({
@@ -119,7 +119,7 @@ describe("jwt callback", () => {
         const token = { name: "Test User", email: "test@example.com" } as JWT;
         const account = { providerAccountId: "123", provider: "google", type: "oauth" } as Account;
 
-        const result = await jwt({ token, user: undefined, account } as any);
+        const result = await jwt({ token, user: undefined!, account });
 
         expect(mockServerFetch).toHaveBeenCalledWith(
             "/User/resolveOrCreateUser",
@@ -133,7 +133,7 @@ describe("jwt callback", () => {
         const token = { name: "Test User", email: "test@example.com" } as JWT;
         const account = { providerAccountId: "123", provider: "google", type: "oauth" } as Account;
 
-        const result = await jwt({ token, user: undefined, account } as any);
+        const result = await jwt({ token, user: undefined!, account });
 
         expect(result).toEqual({ ...token, error: "ResolveFailed" });
     });
@@ -145,7 +145,7 @@ describe("jwt callback", () => {
             expiresAt: Date.now() + 10 * 60 * 1000,
         } as JWT;
 
-        const result = await jwt({ token, user: undefined, account: null } as any);
+        const result = await jwt({ token, user: undefined!, account: null });
 
         expect(mockServerFetch).not.toHaveBeenCalled();
         expect(result).toBe(token);
@@ -154,7 +154,7 @@ describe("jwt callback", () => {
     it("sets a RefreshFailed error when the token is expired and there is no refresh token", async () => {
         const token = { userId: "1", accessToken: "expired", expiresAt: Date.now() - 1000 } as JWT;
 
-        const result = await jwt({ token, user: undefined, account: null } as any);
+        const result = await jwt({ token, user: undefined!, account: null });
 
         expect(result).toEqual({ ...token, error: "RefreshFailed" });
     });
@@ -169,7 +169,7 @@ describe("jwt callback", () => {
             roleName: "user"
         } as JWT;
 
-        const result = await jwt({ token, user: undefined, account: null } as any);
+        const result = await jwt({ token, user: undefined!, account: null });
 
         expect(mockServerFetch).toHaveBeenCalledWith("/User/refresh", expect.objectContaining({ method: "POST" }));
         expect(result).toMatchObject({ accessToken: fakeJwt(9_999_999_999), refreshToken: "new-refresh", error: undefined, roleName: "user" });
@@ -179,12 +179,14 @@ describe("jwt callback", () => {
         mockServerFetch.mockRejectedValue(new Error("backend down"));
         const token = {
             userId: "1",
+            isAdmin: false,
             accessToken: "expired",
             refreshToken: "old-refresh",
             expiresAt: Date.now() - 1000,
+            email: "example@test.com",
         } as JWT;
 
-        const result = await jwt({ token, user: undefined, account: null } as any);
+        const result = await jwt({ token, user: undefined!, account: null });
 
         expect(result).toEqual({ ...token, error: "RefreshFailed" });
     });
@@ -201,10 +203,10 @@ describe("session callback", () => {
         const result = (await session({
             session: sessionObject,
             token,
-            user: {} as any,
+            user: undefined!,
             newSession: undefined,
             trigger: "update",
-        } as any)) as Session;
+        })) as Session;
 
         expect(result.user.id).toBe("3");
         expect(result.user.isAdmin).toBe(true);
@@ -221,10 +223,10 @@ describe("session callback", () => {
         const result = (await session({
             session: sessionObject,
             token,
-            user: {} as any,
+            user: undefined!,
             newSession: undefined,
             trigger: "update",
-        } as any)) as Session;
+        })) as Session;
 
         expect(result.user.isAdmin).toBe(false);
     });

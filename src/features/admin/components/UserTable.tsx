@@ -68,7 +68,7 @@ export const UserTable = ({ users }: Props) => {
 
       {filtered.length === 0 ? (
         <p className="py-8 text-center text-sm text-slate-500">
-          Keine Treffer für „{search}"
+          No results for &bdquo;{search}&ldquo;
         </p>
       ) : (
         <Table>
