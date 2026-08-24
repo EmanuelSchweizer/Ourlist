@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 
 import { render, screen } from '@testing-library/react';
 import { JWT } from 'next-auth/jwt';
-import AdminPage from '../../app/admin/page';
+import AdminPage from './page';
 import { Role, User } from '@/types';
 import { authFetch } from "@/lib/server/api-client";
 import { getToken } from "next-auth/jwt";

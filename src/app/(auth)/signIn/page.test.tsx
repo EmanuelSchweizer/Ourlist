@@ -13,7 +13,7 @@ const mockUseRouter = useRouter as jest.Mock;
 const mockPush = jest.fn();
 const mockRefresh = jest.fn();
 
-describe("SignInPage", () => {
+describe("SignIn page", () => {
     beforeEach(() => {
         jest.resetAllMocks();
         mockUseRouter.mockReturnValue({ push: mockPush, refresh: mockRefresh });
@@ -61,4 +61,6 @@ describe("SignInPage", () => {
         expect(mockRefresh).toHaveBeenCalled()
         await waitFor(() => expect(mockPush).toHaveBeenCalledWith('/'))
     })
+
+    //other testcases implemented in SignInForm.test.tsx
 })
