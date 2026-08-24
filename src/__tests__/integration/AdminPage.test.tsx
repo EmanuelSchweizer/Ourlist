@@ -12,6 +12,7 @@ import { cookies } from 'next/headers';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
+import { DEMO_USERS } from '@/features/admin/constants';
 
 jest.mock("next/navigation");
 jest.mock("next-auth/react");
@@ -44,14 +45,14 @@ const realUsers =
     [{
         id: 1,
         name: "Real User 1",
-        email: "reals.user@realuser.com",
+        email: "real.user@realuser.com",
         roleId: 2,
         roleName: "user"
     },
     {
         id: 2,
         name: "Real User 2",
-        email: "real.user@realuser.com",
+        email: "real.user2@realuser.com",
         roleId: 2,
         roleName: "user"
     }] as User[]
@@ -89,8 +90,25 @@ describe("admin page", () => {
 
         render(await AdminPage())
 
-        await screen.findByText(/Anna Berger/i);
+        await screen.findByText(DEMO_USERS[0].email);
 
-        expect(screen.queryByText(/realuser/i)).not.toBeInTheDocument()
+        expect(screen.queryByText(/real.user@realuser.com/i)).not.toBeInTheDocument()
+    })
+
+    it("displays real user data when user is admin", async () => {
+        mockCookies.mockResolvedValue({ getAll: () => [{ name: "next-auth.session-token", value: "dummy" }] });
+        mockGetToken.mockResolvedValue({ roleName: "admin"} as JWT)
+        mockAuthFetch.mockResolvedValue(realUsers)
+        mockGetRoles.mockResolvedValue({ success: true, data: roles } as ActionResult<Role[]>)
+        mockUseSession.mockReturnValue({
+            data: { user: { id: "1" }, expires: "999_999_999" } as Session,
+            status: "authenticated",
+        });
+
+        render(await AdminPage())
+
+        await screen.findByText(/real.user@realuser.com/i);
+
+        expect(screen.queryByText(DEMO_USERS[0].email)).not.toBeInTheDocument()
     })
 })
