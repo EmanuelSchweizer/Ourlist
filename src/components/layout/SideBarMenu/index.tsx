@@ -23,7 +23,7 @@ export function SideBarMenu() {
 
     return (
         <Drawer >
-            <Button intent="secondary" onPress={() => setIsOpen(true)}>
+            <Button aria-label="open sidebar" intent="secondary" onPress={() => setIsOpen(true)}>
                 <FiMenu height={20} width={20} className="text-gray-900" />
             </Button>
             <Drawer.Backdrop isOpen={isOpen} onOpenChange={setIsOpen}>
