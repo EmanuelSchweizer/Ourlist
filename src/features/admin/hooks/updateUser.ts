@@ -48,8 +48,6 @@ export function useUpdateUser() {
 
         const fields = parseUpdateFields(new FormData(e.currentTarget));
 
-        console.log("fields", fields)
-
         const validationError = validateFields(fields);
 
         if (validationError) {

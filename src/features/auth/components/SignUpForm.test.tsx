@@ -6,13 +6,8 @@ import userEvent from '@testing-library/user-event';
 import { signIn } from 'next-auth/react';
 import { signUp } from '@/features/auth/actions/signUp';
 
-jest.mock('next/navigation', () => ({
-    useRouter: jest.fn(),
-}));
-
-jest.mock('next-auth/react', () => ({
-    signIn: jest.fn(),
-}));
+jest.mock('next-auth/react');
+jest.mock("next/navigation");
 
 jest.mock('@/features/auth/actions/signUp', () => ({
     signUp: jest.fn(),

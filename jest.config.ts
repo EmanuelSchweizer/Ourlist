@@ -21,6 +21,7 @@ const config: Config = {
     '^@/features/(.*)$': '<rootDir>/src/features/$1',
     '^@heroui/react$': '<rootDir>/node_modules/@heroui/react/dist/index.js',
   },
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

@@ -5,13 +5,8 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { SignInForm } from '@/features/auth/components/SignInForm';
 
-jest.mock('next-auth/react', () => ({
-  signIn: jest.fn(),
-}));
-
-jest.mock('next/navigation', () => ({
-  useRouter: jest.fn(),
-}));
+jest.mock('next-auth/react');
+jest.mock("next/navigation");
 
 const mockSignIn = signIn as jest.Mock;
 const mockUseRouter = useRouter as jest.Mock;
