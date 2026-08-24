@@ -35,7 +35,7 @@ describe("NavBar", () => {
         render(<NavBar />)
 
         await screen.findByText(/Ourlist/i)
-        expect(screen.queryByRole('button', { name: /open sidebar/ })).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: /open sidebar/ })).toBeInTheDocument()
         expect(screen.queryByRole('link', { name: /Sign in/ })).not.toBeInTheDocument()
     })
 
