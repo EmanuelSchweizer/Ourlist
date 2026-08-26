@@ -34,10 +34,22 @@ export const EditUser = ({ user }: Props) => {
                                     <EditUserForm user={user} handleSubmit={handleSubmit} closeModal={renderProps.close} />
                                 </Modal.Body>
                                 <Modal.Footer>
-                                    <Button intent="secondary" onPress={() => renderProps.close()}>
+                                    <Button
+                                        aria-label="cancel button"
+                                        intent="secondary"
+                                        onPress={() => renderProps.close()}
+                                    >
                                         Cancel
                                     </Button>
-                                    <Button isDisabled={isLoading} intent="primary" form="edit-user-form" type="submit">Confirm</Button>
+                                    <Button
+                                        aria-label="confirm button"
+                                        isDisabled={isLoading}
+                                        intent="primary"
+                                        form="edit-user-form"
+                                        type="submit"
+                                    >
+                                        Confirm
+                                    </Button>
                                 </Modal.Footer>
                             </>
                         )}

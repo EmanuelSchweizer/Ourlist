@@ -14,11 +14,11 @@ export const UpdateUserPasswort = ({ user }: Props) => {
 
     return (
         <Modal>
-            <Button 
-            aria-label="update password button"
-            size="sm" 
-            isIconOnly 
-            intent="secondary"
+            <Button
+                aria-label="update password button"
+                size="sm"
+                isIconOnly
+                intent="secondary"
             >
                 <IoKeyOutline size={20} height={20} />
             </Button>
@@ -34,10 +34,22 @@ export const UpdateUserPasswort = ({ user }: Props) => {
                                     <UpdatePasswordForm user={user} handleSubmit={handleSubmit} closeModal={renderProps.close} />
                                 </Modal.Body>
                                 <Modal.Footer>
-                                    <Button intent="secondary" onPress={() => renderProps.close()}>
+                                    <Button
+                                        aria-label="cancel button"
+                                        intent="secondary"
+                                        onPress={() => renderProps.close()}
+                                    >
                                         Cancel
                                     </Button>
-                                    <Button isDisabled={isLoading} intent="primary" form="edit-user-form" type="submit">Confirm</Button>
+                                    <Button
+                                        aria-label="confirm button"
+                                        isDisabled={isLoading}
+                                        intent="primary"
+                                        form="edit-user-form"
+                                        type="submit"
+                                    >
+                                        Confirm
+                                    </Button>
                                 </Modal.Footer>
                             </>
                         )}

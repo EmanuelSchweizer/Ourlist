@@ -71,7 +71,9 @@ export const UserTable = ({ users }: Props) => {
           No results for &bdquo;{search}&ldquo;
         </p>
       ) : (
-        <Table>
+        <Table
+          aria-label="user table"
+        >
           <Table.ScrollContainer className="max-h-[calc(92vh-12rem)] overflow-y-auto">
             <Table.Content aria-label="Async loading table" className="min-w-[600px]">
               <Table.Header className="sticky top-0 z-10 bg-surface-secondary">
