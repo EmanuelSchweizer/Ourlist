@@ -14,7 +14,12 @@ export const EditUser = ({ user }: Props) => {
 
     return (
         <Modal>
-            <Button size="sm" isIconOnly intent="secondary">
+            <Button
+                aria-label="edit user button"
+                size="sm"
+                isIconOnly
+                intent="secondary"
+            >
                 <FaRegEdit size={20} height={20} />
             </Button>
             <Modal.Backdrop>
@@ -26,7 +31,7 @@ export const EditUser = ({ user }: Props) => {
                                     <Modal.Heading>Edit user</Modal.Heading>
                                 </Modal.Header>
                                 <Modal.Body className="space-y-4 pt-5">
-                                    <EditUserForm user={user} handleSubmit={handleSubmit} closeModal={renderProps.close}/>
+                                    <EditUserForm user={user} handleSubmit={handleSubmit} closeModal={renderProps.close} />
                                 </Modal.Body>
                                 <Modal.Footer>
                                     <Button intent="secondary" onPress={() => renderProps.close()}>

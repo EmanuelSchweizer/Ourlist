@@ -17,7 +17,13 @@ export const DeleteUser = ({ user }: Props) => {
     const { handleSubmit, isLoading } = useDeleteUser()
 
     return (<Modal>
-        <Button isDisabled={isSessionUser} size="sm" isIconOnly intent="danger">
+        <Button 
+        aria-label="delete user button"
+        isDisabled={isSessionUser}
+        size="sm"
+        isIconOnly
+        intent="danger"
+        >
             <MdDeleteOutline size={20} height={20} />
         </Button>
         <Modal.Backdrop>
