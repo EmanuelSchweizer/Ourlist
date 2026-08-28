@@ -15,7 +15,7 @@ export const UpdatePasswordForm = ({ user, handleSubmit, closeModal }: Props) =>
         <Input
             required
             name="newPassword"
-            aria-label="User name"
+            aria-label="new user password"
             label="New password"
             placeholder="New password"
             type="text"

@@ -50,7 +50,7 @@ export const EditUserForm = ({ user, handleSubmit, closeModal }: Props) => {
             label="Email"
             type="email"
             aria-label="User email"
-            placeholder="Name"
+            placeholder="Email"
         />
         <Select
             isDisabled={isSessionUser}
