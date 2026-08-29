@@ -12,7 +12,7 @@ export const NavBar = () => {
   return (
     <>
       <nav className="sticky inset-x-0 top-0 z-20 border-b border-gray-950/5 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <Link href="/" className="text-xl font-bold text-gray-800 flex items-center">
