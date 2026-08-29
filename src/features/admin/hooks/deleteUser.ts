@@ -20,7 +20,7 @@ export function useDeleteUser() {
             .then((response) => {
                 if (response.success) {
                     router.refresh()
-                    close()
+                    closeModal()
                     showSuccessToast("User deleted successfully.")
                 } else {
                     showErrorToast(response.message)

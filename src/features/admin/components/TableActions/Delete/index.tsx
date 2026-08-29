@@ -17,7 +17,13 @@ export const DeleteUser = ({ user }: Props) => {
     const { handleSubmit, isLoading } = useDeleteUser()
 
     return (<Modal>
-        <Button isDisabled={isSessionUser} size="sm" isIconOnly intent="danger">
+        <Button
+            aria-label="delete user button"
+            isDisabled={isSessionUser}
+            size="sm"
+            isIconOnly
+            intent="danger"
+        >
             <MdDeleteOutline size={20} height={20} />
         </Button>
         <Modal.Backdrop>
@@ -29,13 +35,24 @@ export const DeleteUser = ({ user }: Props) => {
                                 <Modal.Heading>Delete user</Modal.Heading>
                             </Modal.Header>
                             <Modal.Body>
-                                <DeleteUserBody user={user}/>
+                                <DeleteUserBody user={user} />
                             </Modal.Body>
                             <Modal.Footer>
-                                <Button intent="secondary" onPress={() => renderProps.close()}>
+                                <Button
+                                    aria-label="cancel button"
+                                    intent="secondary"
+                                    onPress={() => renderProps.close()}
+                                >
                                     Cancel
                                 </Button>
-                                <Button isDisabled={isLoading} intent="danger" onPress={() => handleSubmit(user.id, renderProps.close)}>Delete</Button>
+                                <Button
+                                    aria-label="delete button"
+                                    isDisabled={isLoading}
+                                    intent="danger"
+                                    onPress={() => handleSubmit(user.id, renderProps.close)}
+                                >
+                                    Delete
+                                </Button>
                             </Modal.Footer>
                         </>
                     )}

@@ -14,7 +14,12 @@ export const UpdateUserPasswort = ({ user }: Props) => {
 
     return (
         <Modal>
-            <Button size="sm" isIconOnly intent="secondary">
+            <Button
+                aria-label="update password button"
+                size="sm"
+                isIconOnly
+                intent="secondary"
+            >
                 <IoKeyOutline size={20} height={20} />
             </Button>
             <Modal.Backdrop>
@@ -23,16 +28,28 @@ export const UpdateUserPasswort = ({ user }: Props) => {
                         {(renderProps) => (
                             <>
                                 <Modal.Header>
-                                    <Modal.Heading>Edit user</Modal.Heading>
+                                    <Modal.Heading>Update password</Modal.Heading>
                                 </Modal.Header>
                                 <Modal.Body className="space-y-4 pt-5">
                                     <UpdatePasswordForm user={user} handleSubmit={handleSubmit} closeModal={renderProps.close} />
                                 </Modal.Body>
                                 <Modal.Footer>
-                                    <Button intent="secondary" onPress={() => renderProps.close()}>
+                                    <Button
+                                        aria-label="cancel button"
+                                        intent="secondary"
+                                        onPress={() => renderProps.close()}
+                                    >
                                         Cancel
                                     </Button>
-                                    <Button isDisabled={isLoading} intent="primary" form="edit-user-form" type="submit">Confirm</Button>
+                                    <Button
+                                        aria-label="confirm button"
+                                        isDisabled={isLoading}
+                                        intent="primary"
+                                        form="edit-user-form"
+                                        type="submit"
+                                    >
+                                        Confirm
+                                    </Button>
                                 </Modal.Footer>
                             </>
                         )}
