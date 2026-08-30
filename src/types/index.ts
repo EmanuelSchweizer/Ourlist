@@ -22,13 +22,20 @@ export type ShoppingList = {
   items: ListItem[];
 }
 
+export type UserSummary = {
+  id: number;
+  name: string;
+};
+
 export type ListItem = {
   id: number;
   name: string;
   bought: boolean;
   createdAt: Date;
   updatedAt: Date;
-  ownerId: number;
   listId: number;
-}
+  createdByUser: UserSummary;
+  boughtByUser: UserSummary | null;
+  boughtAt: Date | null;
+};
 

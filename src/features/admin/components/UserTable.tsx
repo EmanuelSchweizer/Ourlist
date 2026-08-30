@@ -76,7 +76,7 @@ export const UserTable = ({ users }: Props) => {
         >
           <Table.ScrollContainer className="max-h-[calc(92vh-12rem)] overflow-y-auto">
             <Table.Content aria-label="Async loading table" className="min-w-[600px]">
-              <Table.Header className="sticky top-0 z-10 bg-surface-secondary">
+              <Table.Header className="sticky top-0 z-10 bg-gray-50">
                 {columns.map((col) => (
                   <Table.Column key={col.id} id={col.id} isRowHeader={col.id === "name"}>
                     {col.name}
