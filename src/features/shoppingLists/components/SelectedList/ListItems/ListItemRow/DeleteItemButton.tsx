@@ -19,30 +19,16 @@ export const DeleteItemButton = ({ setIsUpdating, isUpdating, item }: Props) => 
     }
 
     return (
-        <Popover>
-            <Button
-                aria-label="delete item button"
-                isIconOnly
-                size="sm"
-                intent="danger"
-                isDisabled={isUpdating}
-                className="opacity-100 transition-opacity [@media(hover:hover)]:opacity-0 group-hover:opacity-100! group-focus-within:opacity-100!"
-            >
-                <MdDeleteOutline size={18} />
-            </Button>
-            <Popover.Content placement="top" className={"p-0"}>
-                <Popover.Dialog className={"p-0"}>
-                    <Button
-                        aria-label="delete item button"
-                        size="md"
-                        intent="danger"
-                        isDisabled={isUpdating}
-                        onPress={handleDelete}
-                    >
-                        <p>Delete</p>
-                    </Button>
-                </Popover.Dialog>
-            </Popover.Content>
-        </Popover>
+        <Button
+            aria-label="delete item button"
+            isIconOnly
+            size="sm"
+            intent="danger"
+            isDisabled={isUpdating}
+            className="opacity-100 transition-opacity [@media(hover:hover)]:opacity-0 group-hover:opacity-100! group-focus-within:opacity-100!"
+            onPress={handleDelete}
+        >
+            <MdDeleteOutline size={18} />
+        </Button>
     )
 }

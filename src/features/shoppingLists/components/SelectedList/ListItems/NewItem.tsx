@@ -10,33 +10,33 @@ export const NewItem = () => {
     const selectedListId = useShoppingListsStore((state) => state.selectedListId)
     const { handleSubmit: addListItem } = useAddListItem()
 
-    const handleBlur = async () => {
+    const handleAdd = async () => {
         if (!newItemName.trim() || selectedListId === null) return
         await addListItem(selectedListId, newItemName)
         setNewItemName("")
     }
 
     return (
-        <div className="flex items-center justify-between mx-3 py-3 space-x-3">
-            <div className="w-full flex items-center gap-3 flex-1 min-w-0 ms-7">
-                <Input
-                    placeholder="Enter new item..."
-                    value={newItemName}
-                    onChange={(e) => setNewItemName(e.target.value)}
-                    onBlur={handleBlur}
-                />
-                <div className="w-10">
-                    {newItemName.length > 0 &&
-                        <Button
-                            size="sm"
-                            isIconOnly
-                            intent="primary"
-                            onClick={handleBlur}
-                        >
-                            <FaPlus size={18} />
-                        </Button>}
-                </div>
-            </div>
+        <div className="flex items-center gap-3 px-4 py-3 border-t border-gray-200 bg-gray-50 shrink-0 rounded-b-2xl">
+            <Input
+                aria-label="new item name"
+                placeholder="Enter new item..."
+                value={newItemName}
+                onChange={(e) => setNewItemName(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleAdd()}
+                className="bg-white shadow-none focus:shadow-field"
+            />
+            <Button
+                aria-label="Add item"
+                size="sm"
+                isIconOnly
+                intent="primary"
+                isDisabled={!newItemName.trim()}
+                onClick={handleAdd}
+                className={"w-9"}
+            >
+                <FaPlus size={14} />
+            </Button>
         </div>
     )
 }

@@ -13,12 +13,12 @@ export const ShoppingLists = () => {
     }, [fetchShoppingLists])
 
     return (
-        <div className={`${selectedListId ? "sm:w-1/3 sm:block hidden" : "w-full sm:w-1/3"} sm:h-full sm:flex sm:flex-col sm:min-h-0`}>
+        <div className={`${selectedListId ? "w-full sm:block hidden" : "w-full"} h-full flex flex-col min-h-0`}>
             <div className="flex items-center justify-between w-full pe-4">
-                <h2 className="text-xl font-bold text-start text-gray-800 m-2 sm:shrink-0">My Lists</h2>
+                <h2 className="text-xl font-bold text-start text-gray-800 m-2 shrink-0">My Lists</h2>
                 <AddNewListButton />
             </div>
-            <div className="w-full rounded-2xl text-gray-900 bg-transparent sm:flex-1 sm:min-h-0 sm:overflow-y-auto">
+            <div className="w-full rounded-2xl overflow-hidden text-gray-900 bg-white flex-1 min-h-0 overflow-y-auto">
                 {shoppingLists
                     .sort((a, b) =>
                         new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()

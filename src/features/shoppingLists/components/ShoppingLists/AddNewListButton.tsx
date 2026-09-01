@@ -10,13 +10,14 @@ export const AddNewListButton = () => {
     const [name, setName] = useState("")
 
     return (
-        <Modal>
+        <Modal onOpenChange={(isOpen) => !isOpen && setName("")}>
             <Button
+                aria-label="Add new list"
                 size="sm"
                 isIconOnly
-                intent="primary"
+                intent="secondary"
             >
-                <FaPlus size={10} />
+                <FaPlus size={14} />
             </Button>
             <Modal.Backdrop>
                 <Modal.Container>

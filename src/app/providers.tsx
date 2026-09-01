@@ -37,7 +37,7 @@ export const Providers = ({ children }: ProvidersProps) => {
         <SessionErrorWatcher />
         {children}
       </SessionProvider>
-      <Toast.Provider />
+      <Toast.Provider placement="top"/>
     </>
   );
 };
