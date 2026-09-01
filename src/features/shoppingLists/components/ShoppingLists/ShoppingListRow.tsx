@@ -17,7 +17,7 @@ export const ShoppingListRow = ({ list, isLast }: Props) => {
     const isSelected = list.id === selectedListId
 
     return (
-        <div className={`hover:bg-violet-50 hover:text-violet-900 cursor-pointer border-l-4 ${isSelected ? "bg-violet-50 text-violet-900 border-violet-600" : "border-transparent"}`}>
+        <div className={`hover:bg-violet-50 hover:text-violet-900 cursor-pointer border-l-4 ${isSelected ? "bg-violet-50 text-violet-900 border-violet-600" : "bg-white border-transparent"}`}>
             <div
                 onClick={() => setSelectedListId(list.id)}
                 className={`flex items-center justify-between mx-3 p-4 ${isLast ? "" : "border-b border-gray-200"}`}>

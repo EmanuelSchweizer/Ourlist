@@ -3,13 +3,23 @@
 import { createAction } from "@/lib/server/action";
 import { authFetch } from "@/lib/server/api-client";
 import { ListItem, ShoppingList } from "@/types";
-import { AddListItem, DeleteListItem, UpdateListItem, UpdateShoppingList } from "./types";
+import { AddListItem, AddShoppingList, DeleteListItem, UpdateListItem, UpdateShoppingList } from "./types";
 
 //ShoppingList
 
 export const getAllShoppingLists = createAction<void, ShoppingList[]>(
     () => authFetch("/ShoppingList", { method: "GET" }),
     "fetch failed.",
+);
+
+export const addShoppingList = createAction<AddShoppingList, ShoppingList>(
+    (input) => authFetch(`/ShoppingList`, {
+        method: "POST",
+        body: JSON.stringify({
+            Name: input.name,
+        }),
+    }),
+    "add failed.",
 );
 
 export const updateShoppingList = createAction<UpdateShoppingList, ShoppingList>(

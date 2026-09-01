@@ -2,7 +2,7 @@ import { Input } from "@heroui/react"
 import { useEffect, useState } from "react"
 import { useUpdateShoppingList } from "../../hooks/ShoppingList/updateShoppingList"
 import { ShoppingList } from "@/types"
-import { DeleteListButton } from "../ShoppingLists/DeleteListButton"
+import { DeleteListButton } from "./DeleteListButton"
 import { Avatar } from "@/components/ui/Avatar"
 import { useSession } from "next-auth/react"
 
@@ -38,7 +38,7 @@ export const ListTitle = ({ selectedList }: Props) => {
     }
 
     return (
-        <div className="group flex items-center justify-between m-2 space-x-3">
+        <div className="group flex items-center justify-between m-2 space-x-3 w-full">
             {isUserListOwner ?
                 <Input
                     aria-label="item name"
@@ -55,6 +55,8 @@ export const ListTitle = ({ selectedList }: Props) => {
                     <Avatar name={selectedList.ownerName} size="sm" className="shrink-0" />
                 </div>
             }
-            <DeleteListButton list={selectedList} />
+            <div className="me-2">
+                <DeleteListButton list={selectedList} />
+            </div>
         </div>)
 }
