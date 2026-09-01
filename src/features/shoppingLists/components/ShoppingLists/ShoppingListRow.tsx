@@ -1,6 +1,6 @@
 import { ShoppingList } from "@/types"
 import { IoIosArrowForward } from "react-icons/io"
-import { useShoppingListsStore } from "../store"
+import { useShoppingListsStore } from "../../store"
 
 interface Props {
     list: ShoppingList

@@ -4,8 +4,8 @@ import { useMemo } from "react"
 import { useShoppingListsStore } from "../../store"
 import { ListItemRow } from "./ListItem"
 import { NewItem } from "./NewItem"
-import { DeleteListButton } from "../DeleteListButton"
-import { BackToListsButton } from "../BackToListsButton"
+import { DeleteListButton } from "../ShoppingLists/DeleteListButton"
+import { BackToListsButton } from "../ShoppingLists/BackToListsButton"
 
 
 export const SelectedList = () => {

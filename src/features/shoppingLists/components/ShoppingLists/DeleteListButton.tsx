@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/Button"
 import { MdDeleteOutline } from "react-icons/md"
-import { useRemoveShoppingList } from "../hooks/removeShoppingList"
+import { useRemoveShoppingList } from "../../hooks/removeShoppingList"
 import { ShoppingList } from "@/types"
 import { Popover } from "@heroui/react"
 

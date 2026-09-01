@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
-import { useShoppingListsStore } from "../store"
+import { useShoppingListsStore } from "../../store"
 import { ShoppingListRow } from "./ShoppingListRow"
 
 export const ShoppingLists = () => {
