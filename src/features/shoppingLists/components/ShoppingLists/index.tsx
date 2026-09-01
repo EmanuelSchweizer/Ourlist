@@ -12,18 +12,16 @@ export const ShoppingLists = () => {
     }, [fetchShoppingLists])
 
     return (
-        <div className={`${selectedListId? "sm:w-full sm:block hidden" : "w-full sm:w-1/2"}`}>
+        <div className={`${selectedListId ? "sm:w-full sm:block hidden" : "w-full sm:w-1/2"}`}>
             <h2 className="text-xl font-bold text-start text-gray-800 m-2">My Lists</h2>
             <div className="w-full rounded-2xl text-gray-900 bg-white">
-                <div>
-                    {shoppingLists
-                        .sort((a, b) =>
-                            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-                        )
-                        .map((l, i, arr) => (
-                            <ShoppingListRow key={l.id} list={l} isLast={i === arr.length - 1} />
-                        ))}
-                </div>
+                {shoppingLists
+                    .sort((a, b) =>
+                        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+                    )
+                    .map((l, i, arr) => (
+                        <ShoppingListRow key={l.id} list={l} isLast={i === arr.length - 1} />
+                    ))}
             </div >
         </div>
     )

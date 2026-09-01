@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/Input"
 import { useState } from "react"
-import { useShoppingListsStore } from "../../store"
-import { useAddListItem } from "../../hooks/addListItem"
+import { useShoppingListsStore } from "../../../store"
+import { useAddListItem } from "../../../hooks/ListItems/addListItem"
 import { Button } from "@/components/ui/Button"
 import { FaPlus } from "react-icons/fa6";
 

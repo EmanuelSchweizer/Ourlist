@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { showErrorToast, showSuccessToast } from "@/components/ui/toast";
-import { deleteShoppingList } from "../actions";
-import { useShoppingListsStore } from "../store";
+import { deleteShoppingList } from "../../actions";
+import { useShoppingListsStore } from "../../store";
 
 export function useRemoveShoppingList() {
     const removeShoppingListFromStore = useShoppingListsStore((state) => state.removeShoppingList);

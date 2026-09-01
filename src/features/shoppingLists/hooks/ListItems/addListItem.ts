@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { showErrorToast, showSuccessToast } from "@/components/ui/toast";
-import { addListItem } from "../actions";
-import { useShoppingListsStore } from "../store";
+import { addListItem } from "../../actions";
+import { useShoppingListsStore } from "../../store";
 
 export function useAddListItem() {
     const addListItemToStore = useShoppingListsStore((state) => state.addListItem);

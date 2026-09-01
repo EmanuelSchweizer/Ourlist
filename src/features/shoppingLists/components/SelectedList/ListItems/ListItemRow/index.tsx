@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Checkbox } from "@heroui/react"
 import { ListItem } from "@/types"
 import { Input } from "@/components/ui/Input"
-import { useUpdateListItem } from "../../../hooks/updateListItem"
+import { useUpdateListItem } from "../../../../hooks/ListItems/updateListItem"
 import { DeleteItemButton } from "./DeleteItemButton"
 
 interface Props {

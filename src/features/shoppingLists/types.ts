@@ -1,3 +1,12 @@
+//ShoppingLists
+
+export interface UpdateShoppingList {
+    listId: number
+    name: string
+}
+
+//ListItems
+
 export interface AddListItem {
     listId: number
     name: string
