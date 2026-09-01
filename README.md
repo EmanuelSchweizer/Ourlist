@@ -13,7 +13,7 @@ someone, and both see changes as they happen.
 | Backend API | Complete, deployed on Railway |
 | Auth (sign up, sign in, refresh) | Done |
 | Admin panel | Done |
-| Lists & items | In progress |
+| Lists & items | Done |
 | Real-time sync (SignalR) | Planned |
 
 ## Tech stack
