@@ -18,7 +18,7 @@ export const ShoppingLists = () => {
                 <h2 className="text-xl font-bold text-start text-gray-800 m-2 shrink-0">My Lists</h2>
                 <AddNewListButton />
             </div>
-            <div className="w-full rounded-2xl overflow-hidden text-gray-900 bg-white flex-1 min-h-0 overflow-y-auto h-full">
+            <div className="w-full rounded-2xl overflow-hidden text-gray-900 bg-white flex-1 min-h-0 overflow-y-auto h-full p-1.5">
                 {shoppingLists.length === 0 ?
                     <div className="flex-1 flex items-center justify-center text-sm text-gray-400 h-full">
                         No lists yet

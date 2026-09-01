@@ -39,7 +39,7 @@ export const ListTitle = ({ selectedList }: Props) => {
     }
 
     return (
-        <div className="group flex items-center justify-between m-2 space-x-3 w-full">
+        <div className="group flex items-center justify-between space-x-3 p-1 w-full">
             {isUserListOwner ?
                 <Input
                     aria-label="item name"
@@ -47,7 +47,7 @@ export const ListTitle = ({ selectedList }: Props) => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     onBlur={handleNameBlur}
-                    className="shadow-none focus:shadow-field truncate min-w-0 flex-1 bg-transparent p-0 text-gray-800 text-xl font-bold"
+                    className="shadow-none focus:shadow-field truncate min-w-0 p-1 flex-1 bg-transparent text-gray-800 text-xl font-bold"
                 /> :
                 <div className="flex items-center min-w-0 gap-2">
                     <h2 className="truncate text-gray-800 text-xl font-bold">
@@ -56,7 +56,7 @@ export const ListTitle = ({ selectedList }: Props) => {
                     <Avatar name={selectedList.ownerName} size="sm" className="shrink-0" />
                 </div>
             }
-            <div className="flex gap-2 me-2">
+            <div className="flex gap-2">
                 <div className="sm:hidden">
                     <ShowListActivityButton />
                 </div>
