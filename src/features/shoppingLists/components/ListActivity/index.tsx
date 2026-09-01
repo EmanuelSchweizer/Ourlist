@@ -5,7 +5,7 @@ import { ActivityFeed } from "./ActivityFeed"
 import { PurchaseChart } from "./PurchaseChart"
 import { useShoppingListsStore } from "../../store"
 
-export const Statistics = () => {
+export const ListActivity = () => {
     const { selectedListId, shoppingLists } = useShoppingListsStore()
 
     const selectedList = useMemo(() => {

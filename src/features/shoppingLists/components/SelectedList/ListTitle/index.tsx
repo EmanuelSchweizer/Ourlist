@@ -1,10 +1,11 @@
 import { Input } from "@heroui/react"
 import { useEffect, useState } from "react"
-import { useUpdateShoppingList } from "../../hooks/ShoppingList/updateShoppingList"
+import { useUpdateShoppingList } from "../../../hooks/ShoppingList/updateShoppingList"
 import { ShoppingList } from "@/types"
-import { DeleteListButton } from "./DeleteListButton"
+import { DeleteListOption } from "./DeleteListOption"
 import { Avatar } from "@/components/ui/Avatar"
 import { useSession } from "next-auth/react"
+import { ShowListActivityButton } from "./ShowListActivityButton"
 
 interface Props {
     selectedList: ShoppingList
@@ -55,8 +56,11 @@ export const ListTitle = ({ selectedList }: Props) => {
                     <Avatar name={selectedList.ownerName} size="sm" className="shrink-0" />
                 </div>
             }
-            <div className="me-2">
-                <DeleteListButton list={selectedList} />
+            <div className="flex gap-2 me-2">
+                <div className="sm:hidden">
+                    <ShowListActivityButton />
+                </div>
+                <DeleteListOption list={selectedList} />
             </div>
         </div>)
 }

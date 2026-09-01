@@ -19,7 +19,6 @@ export const SelectedList = () => {
                 <div className="w-full min-w-0 h-full flex flex-col min-h-0">
                     <ListTitle selectedList={selectedList} />
                     <ListItems selectedList={selectedList} />
-                    <BackToListsButton />
                 </div>
             </div>
         }

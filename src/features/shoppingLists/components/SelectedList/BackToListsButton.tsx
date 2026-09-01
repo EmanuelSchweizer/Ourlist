@@ -12,8 +12,8 @@ export const BackToListsButton = () => {
             aria-label="back to lists button"
             isIconOnly
             size="lg"
-            intent="secondary"
-            className="sm:hidden block fixed bottom-20 left-4 z-50 shadow-lg"
+            intent="light"
+            className="sm:hidden text-gray-900"
             onPress={() => setSelectedListId(null)}
         >
             <div className="flex w-full items-center justify-center">
