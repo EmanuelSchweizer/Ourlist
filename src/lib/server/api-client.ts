@@ -1,4 +1,3 @@
-// lib/server/api-client.ts
 import "server-only";
 
 import type { NextRequest } from "next/server";
@@ -63,6 +62,9 @@ export async function authFetch<T>(path: string, options: FetchOptions = {}): Pr
   });
   const accessToken = token?.accessToken;
 
+  // The `jwt` callback already tried to refresh and gave up — the access token
+  // it left behind is known-stale. Fail fast instead of sending it to the backend.
+  if (token?.error) throw new ApiError(401, JSON.stringify({ message: "Session expired." }));
   if (!accessToken) throw new ApiError(401, JSON.stringify({ message: "Not authenticated." }));
   return serverFetch<T>(path, { ...options, accessToken });
 }

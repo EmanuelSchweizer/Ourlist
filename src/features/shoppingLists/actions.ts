@@ -10,6 +10,11 @@ export const getAllShoppingLists = createAction<void, ShoppingList[]>(
     "fetch failed.",
 );
 
+export const deleteShoppingList = createAction<number, void>(
+    (listId) => authFetch(`/shoppinglists/${listId}`, { method: "DELETE" }),
+    "delete failed.",
+);
+
 export const addListItem = createAction<AddListItem, ListItem>(
     (input) => authFetch(`/shoppinglists/${input.listId}/items`, {
         method: "POST",

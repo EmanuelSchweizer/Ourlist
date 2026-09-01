@@ -12,7 +12,7 @@ export const ShoppingLists = () => {
     }, [fetchShoppingLists])
 
     return (
-        <div className={`${selectedListId? "w-full" : "w-1/2"}`}>
+        <div className={`${selectedListId? "sm:w-full sm:block hidden" : "w-full sm:w-1/2"}`}>
             <h2 className="text-xl font-bold text-start text-gray-800 m-2">My Lists</h2>
             <div className="w-full rounded-2xl text-gray-900 bg-white">
                 <div>
