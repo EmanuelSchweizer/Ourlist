@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { useUpdateShoppingList } from "../../hooks/ShoppingList/updateShoppingList"
 import { ShoppingList } from "@/types"
 import { DeleteListButton } from "../ShoppingLists/DeleteListButton"
+import { Avatar } from "@/components/ui/Avatar"
 import { useSession } from "next-auth/react"
 
 interface Props {
@@ -47,10 +48,13 @@ export const ListTitle = ({ selectedList }: Props) => {
                     onBlur={handleNameBlur}
                     className="shadow-none focus:shadow-field truncate min-w-0 flex-1 bg-transparent p-0 text-gray-800 text-xl font-bold"
                 /> :
-                <h2 className="text-gray-800 text-xl font-bold">
-                    {name}
-                </h2>
+                <div className="flex items-center min-w-0 gap-2">
+                    <h2 className="truncate text-gray-800 text-xl font-bold">
+                        {name}
+                    </h2>
+                    <Avatar name={selectedList.ownerName} size="sm" className="shrink-0" />
+                </div>
             }
-            {isUserListOwner && <DeleteListButton list={selectedList} />}
+            <DeleteListButton list={selectedList} />
         </div>)
 }
