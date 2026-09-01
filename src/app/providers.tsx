@@ -33,7 +33,7 @@ const SessionErrorWatcher = () => {
 export const Providers = ({ children }: ProvidersProps) => {
   return (
     <>
-      <SessionProvider>
+      <SessionProvider refetchInterval={60}>
         <SessionErrorWatcher />
         {children}
       </SessionProvider>
