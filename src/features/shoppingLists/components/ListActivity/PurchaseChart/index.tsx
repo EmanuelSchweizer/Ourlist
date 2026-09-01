@@ -33,7 +33,7 @@ export const PurchaseChart = ({ selectedList }: Props) => {
     ).items
 
     return (
-        <div className="w-full rounded-2xl bg-white p-4 sm:h-full sm:flex sm:flex-col sm:min-h-0">
+        <div className="w-full rounded-2xl bg-white sm:p-4 sm:h-full sm:flex sm:flex-col sm:min-h-0">
             <h3 className="text-sm font-semibold text-gray-500 mb-3 sm:shrink-0">Purchases</h3>
             {totalItems === 0 ? (
                 <div className="flex-1 flex items-center justify-center text-sm text-gray-400">

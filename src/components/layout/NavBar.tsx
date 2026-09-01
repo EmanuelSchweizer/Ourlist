@@ -6,13 +6,15 @@ import { useSession } from "next-auth/react";
 import { SideBarMenu } from "./SideBarMenu";
 import { BackToListsButton } from "@/features/shoppingLists/components/SelectedList/BackToListsButton";
 import { usePathname } from "next/navigation";
+import { useShoppingListsStore } from "@/features/shoppingLists/store";
 
 export const NavBar = () => {
   const { status } = useSession();
   const pathname = usePathname()
+  const { selectedListId } = useShoppingListsStore()
 
   const isAuthenticated = status === "authenticated";
-  const isShoppingItemsPage = pathname === "/"
+  const displayBackToListsButton = pathname === "/" && selectedListId !== null
 
   return (
     <>
@@ -20,7 +22,7 @@ export const NavBar = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2">
-              {isShoppingItemsPage && <BackToListsButton/>}
+              {displayBackToListsButton && <BackToListsButton/>}
               <Link href="/" className="text-xl font-bold text-gray-800 flex items-center">
                 <div className="flex items-center text-white bg-violet-700 rounded-full w-8 h-8 justify-center">
                   <FaBasketShopping className="w-5 h-5" />

@@ -19,7 +19,7 @@ export const NewItem = () => {
     return (
         <div className="flex items-center gap-3 px-4 py-3 border-t border-gray-200 bg-gray-50 shrink-0 rounded-b-2xl">
             <Input
-                aria-label="new item name"
+                aria-label="new item name input"
                 placeholder="Enter new item..."
                 value={newItemName}
                 onChange={(e) => setNewItemName(e.target.value)}
@@ -27,15 +27,15 @@ export const NewItem = () => {
                 className="bg-white shadow-none focus:shadow-field"
             />
             <Button
-                aria-label="Add item"
+                aria-label="add item button"
                 size="sm"
                 isIconOnly
                 intent="primary"
                 isDisabled={!newItemName.trim()}
                 onClick={handleAdd}
-                className={"w-9"}
+                className={"w-11"}
             >
-                <FaPlus size={14} />
+                <FaPlus size={14}/>
             </Button>
         </div>
     )
