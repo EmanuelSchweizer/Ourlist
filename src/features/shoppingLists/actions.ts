@@ -3,7 +3,7 @@
 import { createAction } from "@/lib/server/action";
 import { authFetch } from "@/lib/server/api-client";
 import { ListItem, ShoppingList } from "@/types";
-import { AddListItem, AddShoppingList, DeleteListItem, SharedUserList, UpdateListItem, UpdateShoppingList } from "./types";
+import { AddListItem, AddShoppingList, DeleteListItem, SharedUserList, ShareList, UpdateListItem, UpdateShoppingList } from "./types";
 
 //ShoppingList
 
@@ -75,15 +75,18 @@ export const getSharedUserList = createAction<number, SharedUserList>(
     "fetch failed.",
 );
 
-export const shareList = createAction<number, void>(
-    (listId) => authFetch(`/SharedList/${listId}`, {
+export const shareList = createAction<ShareList, void>(
+    (input) => authFetch(`/SharedList/${input.listId}`, {
         method: "POST",
+        body: JSON.stringify({
+            Email: input.email,
+        }),
     }),
     "post failed.",
 );
 
-export const unShareList = createAction<number, void>(
-    (listId) => authFetch(`/SharedList/${listId}`, {
+export const unShareList = createAction<{listId: number, sharedUserId: number}, void>(
+    (input) => authFetch(`/SharedList/${input.listId}/${input.sharedUserId}`, {
         method: "DELETE",
     }),
     "fetch failed.",

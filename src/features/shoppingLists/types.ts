@@ -30,7 +30,7 @@ export interface DeleteListItem {
 
 //ShareLists
 
-interface SharedUser {
+export interface SharedUser {
     id: number,
     name: string,
     email: string
@@ -41,6 +41,6 @@ export interface SharedUserList {
 }
 
 export interface ShareList {
+    listId: number
     email: string
 }
-
