@@ -14,8 +14,8 @@ export const SelectedList = () => {
 
     return (<>
         {selectedList &&
-            <div className={`${!selectedList ? "hidden" : ""} w-full flex flex-row h-full min-h-0 space-x-4`}>
-                <div className="w-full min-w-0 h-full flex flex-col min-h-0">
+            <div className={`${!selectedList ? "hidden" : ""} w-full h-full flex flex-row min-h-0 space-x-4`}>
+                <div className="w-full h-full min-w-0 flex flex-col min-h-0">
                     <ListTitle selectedList={selectedList} />
                     <ListItems selectedList={selectedList} />
                 </div>

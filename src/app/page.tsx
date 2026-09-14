@@ -8,7 +8,7 @@ export default function Home() {
     <DefaultPageLayout className="w-full sm:grid sm:grid-cols-3 gap-4">
       <ShoppingLists />
       <SelectedList />
-      <div className="sm:block hidden">
+      <div className="sm:block hidden sm:h-full">
         <ListActivity />
       </div>
     </DefaultPageLayout>

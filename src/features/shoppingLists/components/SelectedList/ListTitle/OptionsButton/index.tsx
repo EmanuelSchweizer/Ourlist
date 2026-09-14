@@ -7,6 +7,7 @@ import { useState } from "react"
 import { DeleteConfirmModal } from "./DeleteConfirmModal";
 import { FaUsers } from "react-icons/fa6";
 import { ShareListModal } from "./ShareListModal";
+import { useSession } from "next-auth/react";
 
 interface Props {
     list: ShoppingList
@@ -15,7 +16,8 @@ interface Props {
 export const OptionsButton = ({ list }: Props) => {
     const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
     const [shareListModalOpen, setShareListModalOpen] = useState<boolean>(false)
-
+    const session = useSession()
+    const userIsListOwner = Number(session.data?.user.id) === list.ownerId
 
     return (
         <>
@@ -33,10 +35,10 @@ export const OptionsButton = ({ list }: Props) => {
                 </Button>
                 <Dropdown.Popover>
                     <Dropdown.Menu onAction={(key) => key.toString() === "delete-list" ? setDeleteModalOpen(true) : setShareListModalOpen(true)}>
-                        <Dropdown.Item id="manage-participants" textValue="Manage participants">
+                        {userIsListOwner && <Dropdown.Item id="manage-participants" textValue="Manage participants">
                             <FaUsers size={18} />
                             <Label>Manage Participants</Label>
-                        </Dropdown.Item>
+                        </Dropdown.Item>}
                         <Dropdown.Item id="delete-list" textValue="Delete list" variant="danger">
                             <MdDeleteOutline size={18} className="text-red-400"/>
                             <Label>Delete List</Label>
