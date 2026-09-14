@@ -38,4 +38,3 @@ export type ListItem = {
   boughtByUser: UserSummary | null;
   boughtAt: Date | null;
 };
-

@@ -2,7 +2,7 @@ import { Input } from "@heroui/react"
 import { useEffect, useState } from "react"
 import { useUpdateShoppingList } from "../../../hooks/ShoppingList/updateShoppingList"
 import { ShoppingList } from "@/types"
-import { DeleteListOption } from "./DeleteListOption"
+import { OptionsButton } from "./OptionsButton"
 import { Avatar } from "@/components/ui/Avatar"
 import { useSession } from "next-auth/react"
 import { ShowListActivityButton } from "./ShowListActivityButton"
@@ -60,7 +60,7 @@ export const ListTitle = ({ selectedList }: Props) => {
                 <div className="sm:hidden">
                     <ShowListActivityButton />
                 </div>
-                <DeleteListOption list={selectedList} />
+                <OptionsButton list={selectedList} />
             </div>
         </div>)
 }

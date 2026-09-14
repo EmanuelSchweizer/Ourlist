@@ -1,14 +1,15 @@
 import { Button } from "@/components/ui/Button"
-import { useRemoveShoppingList } from "@/features/shoppingLists/hooks/ListItems/removeShoppingList"
+import { useRemoveShoppingList } from "@/features/shoppingLists/hooks/ShoppingList/removeShoppingList"
 import { Modal } from "@heroui/react"
 
 interface Props{
     listId: number
+    listName: string
     isOpen: boolean
     setIsOpen: (open: boolean) => void
 }
 
-export const DeleteConfirmModal = ({listId, isOpen, setIsOpen}: Props) => {
+export const DeleteConfirmModal = ({listId, isOpen, setIsOpen, listName}: Props) => {
     const { handleSubmit: removeShoppingList, isLoading } = useRemoveShoppingList()
 
     return (
@@ -19,10 +20,14 @@ export const DeleteConfirmModal = ({listId, isOpen, setIsOpen}: Props) => {
                         {(renderProps) => (
                             <>
                                 <Modal.Header>
-                                    <Modal.Heading>Create new List</Modal.Heading>
+                                    <Modal.Heading>Delete List?</Modal.Heading>
                                 </Modal.Header>
                                 <Modal.Body className="space-y-4 pt-5">
-
+                                    <p>
+                                        <span>{"Are you sure to delete the list "}</span>
+                                        <span className="font-bold">{listName}</span>
+                                        <span>{"?"}</span>
+                                    </p>
                                 </Modal.Body>
                                 <Modal.Footer>
                                     <Button

@@ -27,3 +27,20 @@ export interface DeleteListItem {
     listId: number
     itemId: number
 }
+
+//ShareLists
+
+interface SharedUser {
+    id: number,
+    name: string,
+    email: string
+}
+export interface SharedUserList {
+    listId: number
+    sharedUsers: SharedUser[]
+}
+
+export interface ShareList {
+    email: string
+}
+
