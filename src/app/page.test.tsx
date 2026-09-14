@@ -107,7 +107,7 @@ describe("ShoppingLists", () => {
         await user.click(screen.getByText("MyExampleList"))
         await screen.findByDisplayValue("MyExampleList")
 
-        await user.click(screen.getByRole("button", { name: /delete list button/i }))
+        await user.click(screen.getByRole("button", { name: /list options button/i }))
         await user.click(await screen.findByText(/Delete List/i))
 
         const confirmButton = await screen.findByRole("button", { name: /confirm button/i })
