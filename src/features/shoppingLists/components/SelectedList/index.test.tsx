@@ -6,6 +6,7 @@ import { Session } from 'next-auth';
 import { SelectedList } from '.';
 import { useShoppingListsStore } from '../../store';
 import { addListItem, updateListItem, removeListItem } from '../../actions';
+import { showErrorToast } from '@/components/ui/toast';
 import { ShoppingList, ListItem } from '@/types';
 
 jest.mock("next-auth/react");
@@ -30,6 +31,7 @@ const mockUseSession = useSession as jest.Mock;
 const mockAddListItem = addListItem as jest.Mock;
 const mockUpdateListItem = updateListItem as jest.Mock;
 const mockRemoveListItem = removeListItem as jest.Mock;
+const mockShowErrorToast = showErrorToast as jest.Mock;
 
 const exampleItems: ListItem[] = [
     {
@@ -86,17 +88,21 @@ describe("SelectedList", () => {
         })
     })
 
-    it("renders the items of the selected list", () => {
+    it("renders the items of the selected list", async () => {
+        const user = userEvent.setup()
         useShoppingListsStore.setState({ shoppingLists: [exampleShoppingList], selectedListId: 1 })
         render(<SelectedList />)
 
         expect(screen.getByDisplayValue("Milk")).toBeInTheDocument()
-        expect(screen.getByDisplayValue("Bread")).toBeInTheDocument()
-
         expect(screen.getByRole("checkbox", { name: /Mark Milk as bought/i })).not.toBeChecked()
-        expect(screen.getByRole("checkbox", { name: /Mark Bread as bought/i })).toBeChecked()
-
         expect(screen.queryByText("No items yet")).not.toBeInTheDocument()
+
+        // Bought items start out collapsed inside the "Bought" accordion.
+        expect(screen.getByRole("button", { name: /Bought \(1\)/i })).toBeInTheDocument()
+        await user.click(screen.getByRole("button", { name: /Bought \(1\)/i }))
+
+        expect(screen.getByDisplayValue("Bread")).toBeInTheDocument()
+        expect(screen.getByRole("checkbox", { name: /Mark Bread as bought/i })).toBeChecked()
     })
 
     it("shows a placeholder when the selected list has no items", () => {
@@ -180,5 +186,22 @@ describe("SelectedList", () => {
             listId: 1, itemId: 1, name: "Milk", bought: true
         }))
         await waitFor(() => expect(screen.getByRole("checkbox", { name: /Mark Milk as bought/i })).toBeChecked())
+    })
+
+    it("checks the checkbox immediately and reverts it if marking as bought fails", async () => {
+        const user = userEvent.setup()
+        let resolveUpdate: (value: { success: false; message: string }) => void
+        mockUpdateListItem.mockReturnValue(new Promise((resolve) => { resolveUpdate = resolve }))
+        useShoppingListsStore.setState({ shoppingLists: [exampleShoppingList], selectedListId: 1 })
+        render(<SelectedList />)
+
+        await user.click(screen.getByRole("checkbox", { name: /Mark Milk as bought/i }))
+
+        expect(screen.getByRole("checkbox", { name: /Mark Milk as bought/i })).toBeChecked()
+
+        resolveUpdate!({ success: false, message: "Update failed." })
+
+        await waitFor(() => expect(screen.getByRole("checkbox", { name: /Mark Milk as bought/i })).not.toBeChecked())
+        expect(mockShowErrorToast).toHaveBeenCalledWith("Update failed.")
     })
 })

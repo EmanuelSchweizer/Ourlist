@@ -13,11 +13,18 @@ export const ListItemRow = ({ item }: Props) => {
     const { handleSubmit: updateListItem } = useUpdateListItem()
     const [isUpdating, setIsUpdating] = useState(false)
     const [name, setName] = useState(item.name)
+    const [optimisticBought, setOptimisticBought] = useState<boolean | null>(null)
+    const displayedBought = optimisticBought ?? item.bought
 
     const toggleBought = async () => {
+        const previousBought = displayedBought
+        const nextBought = !previousBought
+
+        setOptimisticBought(nextBought)
         setIsUpdating(true)
-        await updateListItem(item.listId, item.id, { bought: !item.bought })
+        const success = await updateListItem(item.listId, item.id, { bought: nextBought })
         setIsUpdating(false)
+        setOptimisticBought(success ? null : previousBought)
     }
 
     const handleNameBlur = async () => {
@@ -38,8 +45,7 @@ export const ListItemRow = ({ item }: Props) => {
             <div className="flex items-center gap-3 flex-1 min-w-0">
                 <Checkbox
                     aria-label={`Mark ${item.name} as bought`}
-                    isSelected={item.bought}
-                    isDisabled={isUpdating}
+                    isSelected={displayedBought}
                     onChange={toggleBought}
                     className="[--accent:var(--color-violet-700)] [--accent-hover:var(--color-violet-500)]"
                 >
@@ -55,7 +61,7 @@ export const ListItemRow = ({ item }: Props) => {
                     disabled={isUpdating}
                     onChange={(e) => setName(e.target.value)}
                     onBlur={handleNameBlur}
-                    className={`shadow-none focus:shadow-field truncate min-w-0 flex-1 ${item.bought ? "text-gray-400 line-through" : "text-gray-900"}`}
+                    className={`shadow-none focus:shadow-field truncate min-w-0 flex-1 ${displayedBought ? "text-gray-400 line-through" : "text-gray-900"}`}
                 />
             </div>
             <DeleteItemButton item={item} isUpdating={isUpdating} setIsUpdating={setIsUpdating}/>

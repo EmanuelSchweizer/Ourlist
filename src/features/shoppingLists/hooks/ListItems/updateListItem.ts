@@ -12,32 +12,36 @@ export function useUpdateListItem() {
         listId: number,
         itemId: number,
         changes: { name?: string; bought?: boolean }
-    ) => {
+    ): Promise<boolean> => {
         const currentItem = shoppingLists
             .find((list) => list.id === listId)
             ?.items.find((item) => item.id === itemId);
 
         if (!currentItem) {
             showErrorToast("Item not found.");
-            return;
+            return false;
         }
 
         setIsLoading(true);
-        updateListItem({
-            listId,
-            itemId,
-            name: changes.name ?? currentItem.name,
-            bought: changes.bought ?? currentItem.bought,
-        })
-            .then((response) => {
-                if (response.success) {
-                    updateListItemInStore(listId, response.data);
-                    showSuccessToast("Item updated successfully.");
-                } else {
-                    showErrorToast(response.message);
-                }
-            })
-            .finally(() => setIsLoading(false));
+        try {
+            const response = await updateListItem({
+                listId,
+                itemId,
+                name: changes.name ?? currentItem.name,
+                bought: changes.bought ?? currentItem.bought,
+            });
+
+            if (response.success) {
+                updateListItemInStore(listId, response.data);
+                showSuccessToast("Item updated successfully.");
+                return true;
+            }
+
+            showErrorToast(response.message);
+            return false;
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return {
