@@ -18,6 +18,9 @@ interface State {
 
     selectedListId: number | null;
     setSelectedListId: (selectedListId: number | null) => void
+
+    isConnected: boolean
+    setIsConnected: (isConnected: boolean) => void
 }
 
 export const useShoppingListsStore = create<State>()((set) => ({
@@ -30,6 +33,11 @@ export const useShoppingListsStore = create<State>()((set) => ({
         set({ selectedListId })
     },
     shoppingLists: [],
+
+    isConnected: false,
+    setIsConnected(isConnected) {
+        set({ isConnected })
+    },
 
     setShoppingLists(shoppingLists) {
         set({ shoppingLists })

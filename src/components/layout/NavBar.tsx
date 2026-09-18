@@ -7,6 +7,7 @@ import { SideBarMenu } from "./SideBarMenu";
 import { BackToListsButton } from "@/features/shoppingLists/components/SelectedList/BackToListsButton";
 import { usePathname } from "next/navigation";
 import { useShoppingListsStore } from "@/features/shoppingLists/store";
+import { ConnectionStatus } from "@/features/shoppingLists/components/ConnectionStatus";
 
 export const NavBar = () => {
   const { status } = useSession();
@@ -32,6 +33,7 @@ export const NavBar = () => {
             </div>
             {isAuthenticated ? (
               <div className="flex items-center gap-3">
+                <ConnectionStatus/>
                 <SideBarMenu/>
               </div>
             ) : (
