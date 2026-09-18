@@ -11,7 +11,7 @@ export const Input = ({ className, label, ...rest }: InputProps & Props) => {
         <Label>{label}</Label>
         <HeroUIInput
             {...rest}
-            className={twMerge("w-full focus:ring-2 focus:ring-violet-700 focus:ring-offset-0", className as string | undefined)}
+            className={twMerge("w-full placeholder:text-slate-400 focus:ring-2 focus:ring-violet-700 focus:ring-offset-0", className as string | undefined)}
         />
     </>
     )

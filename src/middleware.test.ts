@@ -33,6 +33,20 @@ describe("", () => {
         expect(response.headers.get("location")).toBeNull();
     })
 
+    it("does not double-encode cookies set by the session endpoint", async () => {
+        mockGetToken.mockResolvedValue(null)
+        mockFetch.mockResolvedValue({
+            headers: {
+                getSetCookie: () => [
+                    "next-auth.callback-url=http%3A%2F%2Flocalhost%3A3000; Path=/; HttpOnly; SameSite=Lax",
+                ],
+            }
+        } as unknown as Response)
+        const response = await middleware(new NextRequest("https://localhost/"))
+        expect(response.cookies.get("next-auth.callback-url")?.value).toBe("http://localhost:3000")
+        expect(response.headers.get("set-cookie")).toContain("next-auth.callback-url=http%3A%2F%2Flocalhost%3A3000")
+    })
+
     it("redirects when user calls homepage and is not authenticated", async () => {
         mockGetToken.mockResolvedValue(null)
         mockFetch.mockResolvedValue({

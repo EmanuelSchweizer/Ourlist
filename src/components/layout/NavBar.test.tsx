@@ -4,6 +4,7 @@ import { NavBar } from './NavBar';
 import { useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
 import userEvent from '@testing-library/user-event';
+import { usePathname } from 'next/navigation';
 
 jest.mock("next-auth/react");
 jest.mock("next/navigation");
@@ -21,6 +22,7 @@ jest.mock("@/lib/server/api-client", () => ({
 }));
 
 const mockUseSession = useSession as jest.Mock;
+const mockUsePathName = usePathname as jest.Mock;
 
 describe("NavBar", () => {
     beforeEach(() => {
@@ -28,6 +30,7 @@ describe("NavBar", () => {
     })
 
     it("renders NavBar with sidebar when user is authenticated", async () => {
+        mockUsePathName.mockReturnValue("/")
         mockUseSession.mockReturnValue({
             data: { user: { id: "1" }, expires: "999_999_999" } as Session,
             status: "authenticated",
@@ -40,6 +43,7 @@ describe("NavBar", () => {
     })
 
     it("renders NavBar with Sign in button when user is not authenticated", async () => {
+        mockUsePathName.mockReturnValue("/singIn")
         mockUseSession.mockReturnValue({
             data: { user: { id: "1" }, expires: "999_999_999" } as Session,
             status: "unauthenticated",
@@ -55,6 +59,7 @@ describe("NavBar", () => {
     })
 
     it("displays admin panel link when userRole is admin", async () => {
+        mockUsePathName.mockReturnValue("/")
         const user = userEvent.setup()
         mockUseSession.mockReturnValue({
             data: { user: { id: "1", isAdmin: true, roleName: "admin" }, expires: "999_999_999" } as Session,
@@ -75,6 +80,7 @@ describe("NavBar", () => {
 
     it("does not display admin panel link when userRole is user", async () => {
         const user = userEvent.setup()
+        mockUsePathName.mockReturnValue("/")
         mockUseSession.mockReturnValue({
             data: { user: { id: "1", isAdmin: false, roleName: "user" }, expires: "999_999_999" } as Session,
             status: "authenticated",
