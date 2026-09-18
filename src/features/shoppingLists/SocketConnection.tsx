@@ -31,11 +31,9 @@ export const SocketConnection = () => {
       .withAutomaticReconnect()
       .build();
 
-    //the sending client has already updated the store, there for compare if id already exist
+    // The broadcast can arrive before or after the sender's own REST response; addListItem ignores duplicates.
     connection.on("ItemAdded", (item: ListItem) => {
-      const list = useShoppingListsStore.getState().shoppingLists.find((l) => l.id === item.listId);
-      const alreadyExists = list?.items.some((i) => i.id === item.id) ?? false;
-      if (!alreadyExists) addListItem(item.listId, item);
+      addListItem(item.listId, item);
     });
 
     connection.on("ItemUpdated", (item: ListItem) => {

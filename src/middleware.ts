@@ -40,7 +40,9 @@ export async function middleware(request: NextRequest) {
         for (const cookieStr of sessionRes.headers.getSetCookie()) {
             const [pair] = cookieStr.split(";");
             const [name, ...rest] = pair.split("=");
-            request.cookies.set(name, rest.join("="));
+            // Set-Cookie values are URL-encoded, but request.cookies.set() encodes again on write —
+            // without decoding, cookies like next-auth.callback-url end up double-encoded.
+            request.cookies.set(name, decodeURIComponent(rest.join("=")));
         }
     }
 

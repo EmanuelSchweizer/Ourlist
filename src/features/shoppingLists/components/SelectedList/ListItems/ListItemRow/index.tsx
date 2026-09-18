@@ -13,6 +13,12 @@ export const ListItemRow = ({ item }: Props) => {
     const { handleSubmit: updateListItem } = useUpdateListItem()
     const [isUpdating, setIsUpdating] = useState(false)
     const [name, setName] = useState(item.name)
+    const [syncedName, setSyncedName] = useState(item.name)
+    if (item.name !== syncedName) {
+        // Name changed from outside (e.g. another user via SignalR) — take it over into the input.
+        setSyncedName(item.name)
+        setName(item.name)
+    }
     const [optimisticBought, setOptimisticBought] = useState<boolean | null>(null)
     const displayedBought = optimisticBought ?? item.bought
 

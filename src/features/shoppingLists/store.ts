@@ -68,13 +68,19 @@ export const useShoppingListsStore = create<State>()((set) => ({
     },
 
     //listItems
+    // Idempotent: the same item can arrive twice (REST response and SignalR broadcast), in either order.
     addListItem(listId, item) {
         set((state) => ({
-            shoppingLists: state.shoppingLists.map((list) =>
-                list.id === listId
-                    ? { ...list, items: [...list.items, item] }
-                    : list
-            ),
+            shoppingLists: state.shoppingLists.map((list) => {
+                if (list.id !== listId) return list
+                const exists = list.items.some((existing) => existing.id === item.id)
+                return {
+                    ...list,
+                    items: exists
+                        ? list.items.map((existing) => (existing.id === item.id ? item : existing))
+                        : [...list.items, item],
+                }
+            }),
         }))
     },
     updateListItem(listId, item) {
