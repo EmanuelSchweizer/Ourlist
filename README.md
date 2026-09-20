@@ -3,9 +3,6 @@
 Shared shopping lists with real-time sync. Create a list, share it with
 someone, and both see changes as they happen.
 
-> **Work in progress** — the backend API is complete and deployed.
-> The frontend is under active development.
-
 ## Screenshots
 
 <p align="center">
@@ -56,18 +53,6 @@ and on the right the activity feed and a chart of who bought what. The green
 - **Auth** — sign up, sign in (credentials or Google), automatic token
   refresh
 - **Admin panel** — manage users (edit, update password, delete)
-
-## Status
-
-| | |
-|---|---|
-| Backend API | Complete, deployed on Railway |
-| Auth (sign up, sign in, refresh) | Done |
-| Admin panel | Done |
-| Lists & items | Done |
-| List sharing & participants | Done |
-| Activity feed & purchase chart | Done |
-| Real-time sync (SignalR) | Done for list items |
 
 ## Tech stack
 
