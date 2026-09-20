@@ -117,7 +117,7 @@ describe("ShoppingLists", () => {
 
         await user.type(listNameInput, "MyNewList")
 
-        expect(confirmButton).not.toBeDisabled()
+        expect(confirmButton).toBeEnabled()
         await user.click(confirmButton)
         await waitFor(() => expect(mockAddShoppingList).toHaveBeenCalledWith({ name: "MyNewList" } as AddShoppingList))
         expect(screen.getByText("MyNewList")).toBeInTheDocument()

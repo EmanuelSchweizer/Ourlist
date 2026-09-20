@@ -79,7 +79,7 @@ describe("ShareListModal", () => {
         expect(shareButton).toBeDisabled()
 
         await user.type(emailInput, "alice@example.com")
-        expect(shareButton).not.toBeDisabled()
+        expect(shareButton).toBeEnabled()
         await user.click(shareButton)
 
         await waitFor(() => expect(mockShareList).toHaveBeenCalledWith({ listId: 1, email: "alice@example.com" }))

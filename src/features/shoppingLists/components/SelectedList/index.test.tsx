@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { screen, render, waitFor, within } from '@testing-library/react';
+import { screen, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
@@ -164,8 +164,9 @@ describe("SelectedList", () => {
         useShoppingListsStore.setState({ shoppingLists: [exampleShoppingList], selectedListId: 1 })
         render(<SelectedList />)
 
-        const milkRow = screen.getByDisplayValue("Milk").closest(".group") as HTMLElement
-        await user.click(within(milkRow).getByRole("button", { name: /delete item button/i }))
+        expect(screen.getByDisplayValue("Milk")).toBeInTheDocument()
+        const [deleteMilkButton] = screen.getAllByRole("button", { name: /delete item button/i })
+        await user.click(deleteMilkButton)
 
         await waitFor(() => expect(mockRemoveListItem).toHaveBeenCalledWith({ listId: 1, itemId: 1 }))
         await waitFor(() => expect(screen.queryByDisplayValue("Milk")).not.toBeInTheDocument())
