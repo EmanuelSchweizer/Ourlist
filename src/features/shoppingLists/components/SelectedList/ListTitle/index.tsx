@@ -1,5 +1,5 @@
 import { Input } from "@heroui/react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useUpdateShoppingList } from "../../../hooks/ShoppingList/updateShoppingList"
 import { ShoppingList } from "@/types"
 import { OptionsButton } from "./OptionsButton"
@@ -14,14 +14,17 @@ interface Props {
 export const ListTitle = ({ selectedList }: Props) => {
     const session = useSession()
     const [isUpdating, setIsUpdating] = useState(false)
-    const [name, setName] = useState("")
+    const [name, setName] = useState(selectedList.name)
+    const [syncedName, setSyncedName] = useState(selectedList.name)
     const { handleSubmit: updateShoppingList } = useUpdateShoppingList()
 
     const isUserListOwner = Number(session.data?.user.id) === selectedList.ownerId
 
-    useEffect(() => {
-        selectedList && setName(selectedList.name)
-    }, [selectedList])
+    if (selectedList.name !== syncedName) {
+        // Name changed from outside (e.g. another user via SignalR) — take it over into the input.
+        setSyncedName(selectedList.name)
+        setName(selectedList.name)
+    }
 
     const handleNameBlur = async () => {
         if (!selectedList) return
