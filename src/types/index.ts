@@ -11,3 +11,30 @@ export type Role = {
   name: string;
 }
 
+export type ShoppingList = {
+  id: number;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+  ownerId: number;
+  ownerName: string;
+  ownerEmail: string;
+  items: ListItem[];
+}
+
+export type UserSummary = {
+  id: number;
+  name: string;
+};
+
+export type ListItem = {
+  id: number;
+  name: string;
+  bought: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  listId: number;
+  createdByUser: UserSummary;
+  boughtByUser: UserSummary | null;
+  boughtAt: Date | null;
+};

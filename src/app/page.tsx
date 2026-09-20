@@ -1,10 +1,19 @@
+import { DefaultPageLayout } from "@/components/ui/DefaultPageLayout";
+import { SelectedList } from "@/features/shoppingLists/components/SelectedList";
+import { ShoppingLists } from "@/features/shoppingLists/components/ShoppingLists";
+import { ListActivity } from "@/features/shoppingLists/components/ListActivity";
+import { SocketConnection } from "@/features/shoppingLists/SocketConnection";
 
 export default function Home() {
+  
   return (
-    <main className="w-full bg-gray-50">
-      <div className="container mx-auto sm:py-3 lg:py-6 xl:py-8 w-full md:max-w-175">
-        Hello World
+    <DefaultPageLayout className="w-full sm:grid sm:grid-cols-3 gap-4">
+      <SocketConnection/>
+      <ShoppingLists />
+      <SelectedList />
+      <div className="sm:block hidden sm:h-full">
+        <ListActivity />
       </div>
-    </main>
+    </DefaultPageLayout>
   );
 }
