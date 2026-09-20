@@ -6,6 +6,40 @@ someone, and both see changes as they happen.
 > **Work in progress** — the backend API is complete and deployed.
 > The frontend is under active development.
 
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/desktop-lists.png" alt="Ourlist on desktop with lists, items, activity feed and purchase chart" width="820">
+</p>
+
+The main view on desktop: your lists on the left, the open list in the middle,
+and on the right the activity feed and a chart of who bought what. The green
+"Live" badge in the top right means live updates are connected.
+
+### On the phone
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/screenshots/mobile-lists.png" alt="My lists" width="220"><br><sub>My lists with<br>bought / total</sub></td>
+    <td align="center"><img src="docs/screenshots/mobile-list.png" alt="A list with open and bought items" width="220"><br><sub>A list, bought items<br>are collapsed below</sub></td>
+    <td align="center"><img src="docs/screenshots/mobile-activity.png" alt="List activity and purchase chart" width="220"><br><sub>Activity and chart<br>for one list</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/screenshots/mobile-participants.png" alt="Manage participants of a list" width="220"><br><sub>Share a list and<br>manage participants</sub></td>
+    <td align="center"><img src="docs/screenshots/mobile-menu.png" alt="Side menu" width="220"><br><sub>Menu with<br>admin panel</sub></td>
+    <td></td>
+  </tr>
+</table>
+
+### Sign in and admin
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/screenshots/sign-in.png" alt="Sign in page" width="400"><br><sub>Sign in with email or Google</sub></td>
+    <td align="center"><img src="docs/screenshots/admin-panel.png" alt="Admin panel with a user table" width="400"><br><sub>Admin panel (demo users, read-only for the demo admin)</sub></td>
+  </tr>
+</table>
+
 ## Features
 
 - **Lists & items** — create, rename, and delete lists (with confirmation);
@@ -40,7 +74,7 @@ someone, and both see changes as they happen.
 Next.js (App Router), TypeScript, HeroUI, Tailwind, NextAuth, Zustand, SignalR
 client, Jest
 
-Backend: [ShoppingList_WebAPI](https://github.com/EmanuelSchweizer/ShoppingList_WebAPI) —
+Backend: [Ourlist_WebAPI](https://github.com/EmanuelSchweizer/Ourlist_WebAPI) —
 ASP.NET Core (.NET 10), PostgreSQL, EF Core.
 
 ## Architecture
