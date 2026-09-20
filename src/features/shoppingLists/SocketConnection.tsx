@@ -5,6 +5,8 @@ import { useEffect, useMemo } from "react";
 import { ListItem } from "@/types";
 import { useShoppingListsStore } from "./store";
 
+const HUB_URL = process.env.NEXT_PUBLIC_SIGNALR_URL ?? "http://localhost:8080/hubs/shoppingList"
+
 export const SocketConnection = () => {
   const shoppingLists = useShoppingListsStore((state) => state.shoppingLists)
   const setIsConnected = useShoppingListsStore((state) => state.setIsConnected)
@@ -21,7 +23,7 @@ export const SocketConnection = () => {
     const ids = listIdsKey ? listIdsKey.split(",").map(Number) : [];
 
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl("http://localhost:8080/hubs/shoppingList", {
+      .withUrl(HUB_URL, {
         accessTokenFactory: async () => {
           const res = await fetch("/api/signalr-token");
           const data = await res.json();
