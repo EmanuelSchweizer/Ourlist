@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { NavBar } from "@/components/layout/NavBar";
 import { Footer } from "@/components/layout/Footer";
+import { ViewportScrollReset } from "@/components/layout/ViewportScrollReset";
 import { Providers } from "./providers";
 import "./globals.css";
 
@@ -24,6 +25,10 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  interactiveWidget: "resizes-content",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,10 +38,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full overflow-hidden antialiased`}
     >
-      <body className="h-screen flex flex-col overflow-hidden">
+      <body className="h-dvh flex flex-col overflow-hidden">
         <Providers>
+          <ViewportScrollReset />
           <NavBar />
           <main className="flex-1 bg-gray-100 min-h-0 overflow-hidden">
             {children}
