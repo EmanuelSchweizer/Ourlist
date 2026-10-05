@@ -40,7 +40,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full overflow-hidden antialiased`}
     >
-      <body className="h-dvh flex flex-col overflow-hidden">
+      <body className="h-[var(--app-height,100dvh)] flex flex-col overflow-hidden">
         <Providers>
           <ViewportScrollReset />
           <NavBar />
