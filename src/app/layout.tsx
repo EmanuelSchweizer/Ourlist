@@ -25,6 +25,11 @@ export const metadata: Metadata = {
   },
 };
 
+// Every page depends on the auth cookie (middleware redirects), so nothing may be
+// prerendered: static pages get `s-maxage=31536000`, and Amplify's CloudFront would
+// then serve the cached page without ever running the middleware.
+export const dynamic = "force-dynamic";
+
 export const viewport: Viewport = {
   interactiveWidget: "resizes-content",
 };
