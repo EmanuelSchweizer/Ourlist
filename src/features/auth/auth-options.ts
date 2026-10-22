@@ -5,6 +5,7 @@ import GoogleProvider from "next-auth/providers/google"
 
 import { User } from "@/types"
 import { serverFetch } from "@/lib/server/api-client";
+import { ApiError } from "@/lib/errors";
 
 type UserResponse = {
     user?: User;
@@ -37,6 +38,7 @@ export const authOptions: NextAuthOptions = {
 
             //login via google & find user in backend
             if (account?.provider === "google" && token.email) {
+                const start = Date.now();
                 try {
                     const data = await serverFetch<UserResponse>("/User/resolveOrCreateUser", {
                         method: "POST",
@@ -54,7 +56,15 @@ export const authOptions: NextAuthOptions = {
                             roleName: data.user?.roleName,
                         };
                     }
-                } catch {
+
+                    console.error("resolveOrCreateUser returned no user", { durationMs: Date.now() - start });
+                } catch (err) {
+                    // Status 0 after ~10000ms means the request timed out (backend too slow / cold start).
+                    console.error("resolveOrCreateUser failed", {
+                        durationMs: Date.now() - start,
+                        status: err instanceof ApiError ? err.status : undefined,
+                        error: err,
+                    });
                     return { ...token, error: "ResolveFailed" };
                 }
             }
