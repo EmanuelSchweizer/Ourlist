@@ -30,6 +30,8 @@ export async function middleware(request: NextRequest) {
     // Only for routes that fetch server-side on first render: trigger NextAuth's
     // own session endpoint, since only a Route Handler (not this middleware or a
     // Server Component) is guaranteed to be able to write a refreshed cookie back.
+    let refreshedCookies: string[] = [];
+
     if (needsFreshToken(pathname)) {
         const sessionUrl = new URL("/api/auth/session", process.env.NEXTAUTH_URL);
 
@@ -37,7 +39,9 @@ export async function middleware(request: NextRequest) {
             headers: { cookie: request.headers.get("cookie") ?? "" },
         });
 
-        for (const cookieStr of sessionRes.headers.getSetCookie()) {
+        refreshedCookies = sessionRes.headers.getSetCookie();
+
+        for (const cookieStr of refreshedCookies) {
             const [pair] = cookieStr.split(";");
             const [name, ...rest] = pair.split("=");
             // Set-Cookie values are URL-encoded, but request.cookies.set() encodes again on write —
@@ -65,9 +69,12 @@ export async function middleware(request: NextRequest) {
         response = NextResponse.next({ request });
     }
 
-    // Mirror any refreshed cookie back to the browser too.
-    for (const cookie of request.cookies.getAll()) {
-        response.cookies.set(cookie.name, cookie.value);
+    // Forward the session endpoint's Set-Cookie headers verbatim. Re-setting them via
+    // response.cookies.set(name, value) would drop Secure/HttpOnly/Max-Age, and browsers
+    // reject a `__Secure-` cookie without Secure — the refreshed token would never arrive
+    // and the next refresh would reuse an already-rotated refresh token.
+    for (const cookieStr of refreshedCookies) {
+        response.headers.append("set-cookie", cookieStr);
     }
 
     return response;
