@@ -5,7 +5,7 @@ import { ShareListModal } from '.';
 import { getSharedUserList, shareList, unShareList } from '@/features/shoppingLists/actions';
 import { ActionResult } from '@/lib/server/action';
 import { SharedUser, SharedUserList } from '@/features/shoppingLists/types';
-import { showSuccessToast, showErrorToast } from '@/components/ui/toast';
+import { showErrorToast } from '@/components/ui/toast';
 
 jest.mock("@/features/shoppingLists/actions", () => ({
     getSharedUserList: jest.fn(),
@@ -14,7 +14,6 @@ jest.mock("@/features/shoppingLists/actions", () => ({
 }));
 
 jest.mock("@/components/ui/toast", () => ({
-    showSuccessToast: jest.fn(),
     showErrorToast: jest.fn(),
     showWarningToast: jest.fn(),
 }));
@@ -22,7 +21,6 @@ jest.mock("@/components/ui/toast", () => ({
 const mockGetSharedUserList = getSharedUserList as jest.Mock;
 const mockShareList = shareList as jest.Mock;
 const mockUnShareList = unShareList as jest.Mock;
-const mockShowSuccessToast = showSuccessToast as jest.Mock;
 const mockShowErrorToast = showErrorToast as jest.Mock;
 
 const exampleSharedUsers: SharedUser[] = [
@@ -84,7 +82,6 @@ describe("ShareListModal", () => {
 
         await waitFor(() => expect(mockShareList).toHaveBeenCalledWith({ listId: 1, email: "alice@example.com" }))
         await waitFor(() => expect(mockGetSharedUserList).toHaveBeenCalledTimes(2))
-        expect(mockShowSuccessToast).toHaveBeenCalled()
         expect(emailInput).toHaveValue("")
         expect(await screen.findByText("Alice")).toBeInTheDocument()
     })
@@ -125,7 +122,6 @@ describe("ShareListModal", () => {
 
         await waitFor(() => expect(mockUnShareList).toHaveBeenCalledWith({ listId: 1, sharedUserId: 1 }))
         await waitFor(() => expect(mockGetSharedUserList).toHaveBeenCalledTimes(2))
-        expect(mockShowSuccessToast).toHaveBeenCalled()
         await waitFor(() => expect(screen.queryByText("Alice")).not.toBeInTheDocument())
     })
 

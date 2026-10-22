@@ -7,7 +7,6 @@ import { ShoppingList } from '@/types';
 import { useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
 import userEvent from '@testing-library/user-event';
-import { showSuccessToast } from '@/components/ui/toast';
 import { AddShoppingList } from '../../types';
 
 jest.mock("next-auth/react");
@@ -18,7 +17,6 @@ jest.mock("../../actions", () => ({
 }));
 
 jest.mock("@/components/ui/toast", () => ({
-    showSuccessToast: jest.fn(),
     showErrorToast: jest.fn(),
     showWarningToast: jest.fn(),
 }));
@@ -27,7 +25,6 @@ const mockGetAllShoppingLists = getAllShoppingLists as jest.Mock;
 const mockUseSession = useSession as jest.Mock;
 const mockAddShoppingList = addShoppingList as jest.Mock;
 
-const mockShowSuccessToast = showSuccessToast as jest.Mock;
 
 const exampleShoppingLists: ShoppingList[] = [
     {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { showErrorToast, showSuccessToast } from "@/components/ui/toast";
+import { showErrorToast } from "@/components/ui/toast";
 import { unShareList } from "../../actions";
 
 export function useUnShareList() {
@@ -11,7 +11,6 @@ export function useUnShareList() {
             .then((response) => {
                 if (response.success) {
                     onSuccess();
-                    showSuccessToast("Participant removed successfully.");
                 } else {
                     showErrorToast(response.message);
                 }

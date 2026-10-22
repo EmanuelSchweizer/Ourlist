@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { showErrorToast, showSuccessToast } from "@/components/ui/toast";
+import { showErrorToast } from "@/components/ui/toast";
 import { deleteShoppingList } from "../../actions";
 import { useShoppingListsStore } from "../../store";
 
@@ -16,7 +16,6 @@ export function useRemoveShoppingList() {
                 if (response.success) {
                     removeShoppingListFromStore(listId);
                     if (selectedListId === listId) setSelectedListId(null);
-                    showSuccessToast("List removed successfully.");
                 } else {
                     showErrorToast(response.message);
                 }

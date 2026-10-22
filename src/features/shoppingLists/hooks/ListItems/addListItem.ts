@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { showErrorToast, showSuccessToast } from "@/components/ui/toast";
+import { showErrorToast } from "@/components/ui/toast";
 import { addListItem } from "../../actions";
 import { useShoppingListsStore } from "../../store";
 
@@ -13,7 +13,6 @@ export function useAddListItem() {
             .then((response) => {
                 if (response.success) {
                     addListItemToStore(listId, response.data);
-                    showSuccessToast("Item added successfully.");
                 } else {
                     showErrorToast(response.message);
                 }

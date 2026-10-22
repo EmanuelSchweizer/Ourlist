@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { showErrorToast, showSuccessToast } from "@/components/ui/toast";
+import { showErrorToast } from "@/components/ui/toast";
 import { shareList } from "../../actions";
 
 export function useShareList() {
@@ -11,7 +11,6 @@ export function useShareList() {
             .then((response) => {
                 if (response.success) {
                     onSuccess();
-                    showSuccessToast("User added as participant successfully.");
                 } else {
                     showErrorToast(response.message);
                 }

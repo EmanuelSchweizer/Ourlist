@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { showErrorToast, showSuccessToast } from "@/components/ui/toast";
+import { showErrorToast } from "@/components/ui/toast";
 import { addShoppingList } from "../../actions";
 import { useShoppingListsStore } from "../../store";
 import { AddShoppingList } from "../../types";
@@ -24,7 +24,6 @@ export function useAddShoppingList() {
             .then((response) => {
                 if (response.success) {
                     addShoppingListInStore(response.data);
-                    showSuccessToast("List added successfully.");
                     setSelectedListId(response.data.id)
                     closeModal()
                 } else {

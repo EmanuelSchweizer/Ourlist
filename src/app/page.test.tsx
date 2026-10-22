@@ -20,7 +20,6 @@ jest.mock("@/features/shoppingLists/actions", () => ({
 }));
 
 jest.mock("@/components/ui/toast", () => ({
-    showSuccessToast: jest.fn(),
     showErrorToast: jest.fn(),
     showWarningToast: jest.fn(),
 }));

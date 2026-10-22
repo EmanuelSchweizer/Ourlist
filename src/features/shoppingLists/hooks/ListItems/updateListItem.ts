@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { showErrorToast, showSuccessToast } from "@/components/ui/toast";
+import { showErrorToast } from "@/components/ui/toast";
 import { updateListItem } from "../../actions";
 import { useShoppingListsStore } from "../../store";
 
@@ -33,7 +33,6 @@ export function useUpdateListItem() {
 
             if (response.success) {
                 updateListItemInStore(listId, response.data);
-                showSuccessToast("Item updated successfully.");
                 return true;
             }
 
